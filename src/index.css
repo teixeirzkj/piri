@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Lilita One", sans-serif;
+  --font-body: "Nunito", system-ui, sans-serif;
+
+  --color-piri-red: #c1121f;
+  --color-piri-red-dark: #8e0a14;
+  --color-piri-gold: #ffc72c;
+  --color-piri-cream: #fbf3e4;
+  --color-piri-dark: #3a1410;
+  --color-piri-brown: #8a5a4a;
+  --color-piri-green: #1f8a3b;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-piri-cream);
+  color: var(--color-piri-dark);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@layer base {
+  a {
+    color: var(--color-piri-red);
+  }
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}
+
+.font-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
