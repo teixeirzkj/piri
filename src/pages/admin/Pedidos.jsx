@@ -3,6 +3,8 @@ import { useOrders } from '../../hooks/useOrders'
 import { brl } from '../../lib/format'
 import { Card } from '../../components/admin/ui'
 
+const PAY_LABEL = { pix: 'Pix', cartao: 'Cartão', dinheiro: 'Dinheiro' }
+
 const STAGES = [
   ['pendente', 'Pendente', '#C1121F', '#FBEAEA'],
   ['preparo', 'Em preparo', '#8a6a10', '#FFF7E0'],
@@ -35,8 +37,15 @@ export default function Pedidos() {
                     <Card className="py-2.5 px-3">
                       <p className="m-0 font-black text-[13px]">{o.customer_name || 'Cliente'}</p>
                       {o.phone && <p className="m-0 text-[11px] text-piri-brown font-bold">{o.phone}</p>}
+                      {o.address && <p className="mt-1 text-[11px] text-piri-dark font-bold">📍 {o.address}</p>}
                       <p className="mt-1 text-[11.5px] text-piri-brown font-bold">{(o.items || []).map((it) => `${it.qty}x ${it.name}`).join(', ')}</p>
                       <p className="font-display mt-1 text-[15px] text-piri-red">{brl(o.total)}</p>
+                      {o.payment && (
+                        <p className="mt-0.5 text-[11px] font-extrabold text-piri-brown">
+                          {PAY_LABEL[o.payment] || o.payment}
+                          {o.payment === 'dinheiro' && (o.change_for ? ` · troco p/ R$ ${o.change_for}` : ' · sem troco')}
+                        </p>
+                      )}
                       <div className="flex gap-1.5 mt-2">
                         {NEXT[id] && (
                           <button onClick={() => updateOrder(o.id, { status: NEXT[id] })} className="bg-piri-cream rounded-[8px] text-[11px] font-extrabold px-2.5 py-1.5">

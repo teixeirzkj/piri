@@ -11,9 +11,8 @@ import { computeStoreStatus } from '../lib/storeStatus'
 import { orderWhatsAppLink } from '../lib/whatsapp'
 
 import StoreHeader from '../components/site/StoreHeader'
-import PromoBanner from '../components/site/PromoBanner'
+import ComboCarousel from '../components/site/ComboCarousel'
 import FeaturedScroller from '../components/site/FeaturedScroller'
-import ComboSection from '../components/site/ComboSection'
 import ProductRow from '../components/site/ProductRow'
 import ProductModal from '../components/site/ProductModal'
 import CartDrawer from '../components/site/CartDrawer'
@@ -61,13 +60,6 @@ export default function Cardapio() {
 
   const drinkOptions = activeProducts.filter((p) => p.cat === 'bebidas' && p.iconKind === 'lata')
 
-  const scrollToId = (id) => {
-    const el = document.getElementById(id)
-    if (!el) return
-    const y = el.getBoundingClientRect().top + window.scrollY - 16
-    window.scrollTo({ top: y, behavior: 'smooth' })
-  }
-
   const handleSubmitOrder = async (orderDraft) => {
     const cost = orderDraft.items.reduce((a, it) => {
       const p = activeProducts.find((x) => x.id === it.id)
@@ -78,7 +70,10 @@ export default function Cardapio() {
       items: orderDraft.items,
       total: orderDraft.total,
       customerName: orderDraft.customer_name,
+      phone: orderDraft.phone,
       address: orderDraft.address,
+      payment: orderDraft.payment,
+      changeFor: orderDraft.change_for,
       sauceChoice: orderDraft.sauce_choice,
     })
   }
@@ -103,7 +98,7 @@ export default function Cardapio() {
 
         {!searchActive && (
           <>
-            <PromoBanner onClick={() => scrollToId('pasteis')} />
+            <ComboCarousel combos={combos} />
             <a
               href="https://wa.me/557499829662"
               target="_blank"
@@ -139,8 +134,6 @@ export default function Cardapio() {
               </div>
             </section>
           ))}
-
-        {!searchActive && <ComboSection combos={combos} />}
       </main>
 
       <Footer />

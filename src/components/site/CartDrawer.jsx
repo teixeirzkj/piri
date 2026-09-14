@@ -9,7 +9,13 @@ export default function CartDrawer({ open, onClose, items, total, count, onInc, 
   const [step, setStep] = useState('cart') // cart | details | done
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
-  const [address, setAddress] = useState('')
+  const [street, setStreet] = useState('')
+  const [number, setNumber] = useState('')
+  const [neighborhood, setNeighborhood] = useState('')
+  const [city, setCity] = useState('Miguel Calmon')
+  const [payment, setPayment] = useState('pix')
+  const [needsChange, setNeedsChange] = useState(null) // 'sim' | 'nao'
+  const [changeFor, setChangeFor] = useState('')
   const [submitting, setSubmitting] = useState(false)
 
   const belowMinimum = total < MIN_ORDER
@@ -25,16 +31,24 @@ export default function CartDrawer({ open, onClose, items, total, count, onInc, 
     setStep('details')
   }
 
+  const addressLine = [street.trim() && number.trim() ? `${street.trim()}, Nº ${number.trim()}` : street.trim(), neighborhood.trim(), city.trim()]
+    .filter(Boolean)
+    .join(' — ')
+
+  const canSubmit = name.trim() && street.trim() && number.trim() && neighborhood.trim() && (payment !== 'dinheiro' || needsChange === 'nao' || (needsChange === 'sim' && changeFor.trim()))
+
   const submit = async () => {
-    if (!name.trim()) return
+    if (!canSubmit) return
     setSubmitting(true)
     const order = {
       customer_name: name.trim(),
       phone: phone.trim(),
-      address: address.trim(),
+      address: addressLine,
       items: items.map((it) => ({ id: it.id, name: it.name, price: it.price, qty: it.qty })),
       total,
+      payment,
       sauce_choice: sauceChoice,
+      change_for: payment === 'dinheiro' && needsChange === 'sim' ? changeFor.trim() : null,
     }
     const link = await onSubmitOrder(order)
     setSubmitting(false)
@@ -48,7 +62,12 @@ export default function CartDrawer({ open, onClose, items, total, count, onInc, 
     setSauceWarning(false)
     setName('')
     setPhone('')
-    setAddress('')
+    setStreet('')
+    setNumber('')
+    setNeighborhood('')
+    setPayment('pix')
+    setNeedsChange(null)
+    setChangeFor('')
     onClear()
     onClose()
   }
@@ -214,24 +233,108 @@ export default function CartDrawer({ open, onClose, items, total, count, onInc, 
                   ‹ Voltar
                 </button>
                 <p className="m-0 font-black text-piri-dark text-lg">Seus dados pra entrega</p>
+
                 <div>
                   <p className="text-xs font-black uppercase tracking-wide text-piri-brown mb-1">Nome</p>
                   <input value={name} onChange={(e) => setName(e.target.value)} className="w-full h-12 rounded-2xl border border-piri-dark/15 px-4 font-bold" />
                 </div>
                 <div>
                   <p className="text-xs font-black uppercase tracking-wide text-piri-brown mb-1">WhatsApp</p>
-                  <input value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full h-12 rounded-2xl border border-piri-dark/15 px-4 font-bold" />
+                  <input value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="(74) 9____-____" className="w-full h-12 rounded-2xl border border-piri-dark/15 px-4 font-bold" />
+                </div>
+
+                <div className="grid grid-cols-[1fr_100px] gap-2">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-wide text-piri-brown mb-1">Rua</p>
+                    <input value={street} onChange={(e) => setStreet(e.target.value)} className="w-full h-12 rounded-2xl border border-piri-dark/15 px-4 font-bold" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-wide text-piri-brown mb-1">Número</p>
+                    <input value={number} onChange={(e) => setNumber(e.target.value)} className="w-full h-12 rounded-2xl border border-piri-dark/15 px-4 font-bold" />
+                  </div>
                 </div>
                 <div>
-                  <p className="text-xs font-black uppercase tracking-wide text-piri-brown mb-1">Endereço de entrega</p>
-                  <textarea value={address} onChange={(e) => setAddress(e.target.value)} rows={3} className="w-full rounded-2xl border border-piri-dark/15 px-4 py-3 font-bold resize-none" />
+                  <p className="text-xs font-black uppercase tracking-wide text-piri-brown mb-1">Bairro</p>
+                  <input value={neighborhood} onChange={(e) => setNeighborhood(e.target.value)} className="w-full h-12 rounded-2xl border border-piri-dark/15 px-4 font-bold" />
                 </div>
+                <div>
+                  <p className="text-xs font-black uppercase tracking-wide text-piri-brown mb-1">Cidade</p>
+                  <input value={city} onChange={(e) => setCity(e.target.value)} className="w-full h-12 rounded-2xl border border-piri-dark/15 px-4 font-bold" />
+                </div>
+
+                <div className="mt-1">
+                  <p className="text-xs font-black uppercase tracking-wide text-piri-brown mb-1.5">Forma de pagamento</p>
+                  <div className="grid grid-cols-3 gap-2">
+                    {[
+                      ['pix', 'Pix'],
+                      ['cartao', 'Cartão'],
+                      ['dinheiro', 'Dinheiro'],
+                    ].map(([id, label]) => (
+                      <button
+                        key={id}
+                        onClick={() => {
+                          setPayment(id)
+                          if (id !== 'dinheiro') {
+                            setNeedsChange(null)
+                            setChangeFor('')
+                          }
+                        }}
+                        className="rounded-2xl py-2.5 font-black text-[13px]"
+                        style={{ background: payment === id ? '#2B1210' : '#fff', color: payment === id ? '#fff' : '#2B1210', border: payment === id ? 'none' : '1px solid rgba(43,18,16,.16)' }}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {payment === 'dinheiro' && (
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-wide text-piri-brown mb-1.5">Precisa de troco?</p>
+                    <div className="grid grid-cols-2 gap-2 mb-2">
+                      <button
+                        onClick={() => setNeedsChange('sim')}
+                        className="rounded-2xl py-2.5 font-black text-[13px] border-2"
+                        style={{
+                          borderColor: needsChange === 'sim' ? '#1f8a3b' : 'rgba(58,20,16,.12)',
+                          background: needsChange === 'sim' ? '#F1F8F1' : '#fff',
+                          color: needsChange === 'sim' ? '#1f8a3b' : '#3A1410',
+                        }}
+                      >
+                        Sim
+                      </button>
+                      <button
+                        onClick={() => {
+                          setNeedsChange('nao')
+                          setChangeFor('')
+                        }}
+                        className="rounded-2xl py-2.5 font-black text-[13px] border-2"
+                        style={{
+                          borderColor: needsChange === 'nao' ? '#C1121F' : 'rgba(58,20,16,.12)',
+                          background: needsChange === 'nao' ? '#FBEAEA' : '#fff',
+                          color: needsChange === 'nao' ? '#C1121F' : '#3A1410',
+                        }}
+                      >
+                        Não
+                      </button>
+                    </div>
+                    {needsChange === 'sim' && (
+                      <input
+                        value={changeFor}
+                        onChange={(e) => setChangeFor(e.target.value)}
+                        placeholder="Troco para quanto? Ex: R$ 50,00"
+                        className="w-full h-12 rounded-2xl border border-piri-dark/15 px-4 font-bold"
+                      />
+                    )}
+                  </div>
+                )}
+
                 <motion.button
                   whileTap={{ scale: 0.98 }}
                   onClick={submit}
-                  disabled={!name.trim() || submitting}
+                  disabled={!canSubmit || submitting}
                   className="w-full text-white rounded-full py-4 font-black text-base shadow-lg mt-2"
-                  style={{ background: !name.trim() || submitting ? '#C9A59A' : '#C1121F' }}
+                  style={{ background: !canSubmit || submitting ? '#C9A59A' : '#C1121F' }}
                 >
                   {submitting ? 'Enviando...' : 'Confirmar e enviar no WhatsApp'}
                 </motion.button>
