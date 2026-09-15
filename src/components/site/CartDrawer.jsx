@@ -21,7 +21,6 @@ export default function CartDrawer({ open, onClose, items, total, count, onInc, 
 
   const belowMinimum = total < MIN_ORDER
   const missing = Math.max(0, MIN_ORDER - total)
-  const hasDrink = items.some((it) => it.cat === 'bebidas')
 
   const goToDetails = () => {
     if (belowMinimum) return
@@ -139,24 +138,30 @@ export default function CartDrawer({ open, onClose, items, total, count, onInc, 
                 </div>
 
                 <div className="px-5 pt-3.5 pb-5 bg-white rounded-t-[28px] shadow-[0_-10px_30px_rgba(120,60,20,.08)] flex flex-col gap-3 max-h-[56vh] overflow-y-auto">
-                  {!hasDrink && (
+                  {drinkOptions.length > 0 && (
                     <div>
                       <p className="m-0 mb-2 font-black text-[13px] text-piri-dark">🥤 Vai querer uma bebida geladinha?</p>
                       <div className="flex gap-2 overflow-x-auto pb-0.5">
-                        {drinkOptions.map((d) => (
-                          <button
-                            key={d.id}
-                            onClick={() => onAddDrink(d.id)}
-                            className="flex-none flex items-center gap-2 bg-piri-cream border border-piri-dark/10 rounded-full pl-1 pr-3 py-1"
-                          >
-                            <span className="w-6.5 h-6.5 rounded-full overflow-hidden inline-block bg-white flex-none">
-                              {d.img && <img src={d.img} alt="" className="w-full h-full object-cover" />}
-                            </span>
-                            <span className="text-xs font-extrabold text-piri-dark whitespace-nowrap">
-                              {d.name.split(' ').slice(0, 2).join(' ')} · {brl(d.price)}
-                            </span>
-                          </button>
-                        ))}
+                        {drinkOptions.map((d) => {
+                          const inCart = items.find((it) => it.id === d.id)
+                          return (
+                            <button
+                              key={d.id}
+                              onClick={() => onAddDrink(d.id)}
+                              className={`flex-none flex items-center gap-2 border rounded-full pl-1 pr-3 py-1 ${
+                                inCart ? 'bg-[#FFF3C4] border-piri-gold' : 'bg-piri-cream border-piri-dark/10'
+                              }`}
+                            >
+                              <span className="w-6.5 h-6.5 rounded-full overflow-hidden inline-block bg-white flex-none">
+                                {d.img && <img src={d.img} alt="" className="w-full h-full object-cover" />}
+                              </span>
+                              <span className="text-xs font-extrabold text-piri-dark whitespace-nowrap">
+                                {d.name.split(' ').slice(0, 2).join(' ')} · {brl(d.price)}
+                              </span>
+                              {inCart && <span className="text-[11px] font-black text-piri-red flex-none">×{inCart.qty}</span>}
+                            </button>
+                          )
+                        })}
                       </div>
                     </div>
                   )}
