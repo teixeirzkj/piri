@@ -4,10 +4,11 @@
 // so behavior matches once Supabase is connected.
 
 export const CATEGORIES = [
-  { id: 'minis', label: 'Salgados de Festa', icon: '🧁', priceNote: 'R$ 1,00 a unidade' },
-  { id: 'grandes', label: 'Salgados grandes', icon: '🍗', priceNote: 'R$ 5,00 cada unidade' },
-  { id: 'pasteis', label: 'Pastelzinhos crocantes', icon: '🥟', priceNote: 'R$ 1,00 a unidade' },
-  { id: 'bebidas', label: 'Bebidas geladas', icon: '🥤', priceNote: 'Latas R$ 6,00 · 1 Litro R$ 8,00' },
+  { id: 'minis', label: 'Salgados de Festa', priceNote: 'R$ 1,00 a unidade' },
+  { id: 'grandes', label: 'Salgados grandes', priceNote: 'R$ 5,00 cada unidade' },
+  { id: 'forno', label: 'Salgados de Forno', priceNote: 'Assados fresquinhos' },
+  { id: 'pasteis', label: 'Pastelzinhos crocantes', priceNote: 'R$ 1,00 a unidade' },
+  { id: 'bebidas', label: 'Bebidas geladas', priceNote: 'Latas R$ 6,00 · 1 Litro R$ 8,00' },
 ]
 
 export const DEMO_PRODUCTS = [
@@ -21,12 +22,12 @@ export const DEMO_PRODUCTS = [
   { id: 'g-queijo', cat: 'grandes', name: 'Bolinho de Queijo', description: 'Muito queijo e sabor.', long: 'Puxa-puxa de verdade. Recheio farto de queijo em massa leve e crocante.', price: 5, cost: 1.8, stock: 60, img: '/products/p-queijo.jpeg', badge: 'QUERIDINHO', featured: true, active: true },
   { id: 'g-risoles', cat: 'grandes', name: 'Risoles', description: 'Presunto e queijo cremoso.', long: 'Risoles grande, empanado e crocante, com recheio cremoso de presunto e queijo.', price: 5, cost: 1.8, stock: 60, img: '/products/p-risoles.jpeg', active: true },
   { id: 'g-enrolado', cat: 'grandes', name: 'Enrolado de Salsicha', description: 'Salsicha suculenta envolvida na massa.', long: 'Salsicha inteira envolvida em massa macia e dourada.', price: 5, cost: 1.8, stock: 60, img: '/products/p-enrolado.jpeg', active: true },
-  { id: 'g-esfiha-carne', cat: 'grandes', name: 'Esfiha de Carne', description: 'Recheio de carne moída bem temperada.', long: 'Esfiha assada no forno, recheio farto de carne moída bem temperada.', price: 1, cost: 0.4, stock: 40, img: '/products/forno-esfiha-carne.jpeg', active: true },
-  { id: 'g-esfiha-frango', cat: 'grandes', name: 'Esfiha de Frango c/ Requeijão', description: 'Frango desfiado com requeijão cremoso.', long: 'Esfiha assada no forno, recheio de frango desfiado com requeijão cremoso.', price: 1, cost: 0.4, stock: 40, img: '/products/forno-esfiha-frango.jpeg', active: true },
-  { id: 'g-esfiha-calabresa', cat: 'grandes', name: 'Esfiha de Calabresa c/ Requeijão', description: 'Calabresa moída com requeijão cremoso.', long: 'Esfiha assada no forno, recheio de calabresa moída com requeijão cremoso.', price: 1, cost: 0.4, stock: 40, img: '/products/forno-esfiha-calabresa.jpeg', active: true },
-  { id: 'g-bauru', cat: 'grandes', name: 'Baurú', description: 'Pão fofinho recheado, assado no forno.', long: 'Baurú assado no forno, pão fofinho e recheio generoso.', price: 1, cost: 0.4, stock: 40, img: '/products/forno-bauru.jpeg', active: true },
-  { id: 'g-hamburgao', cat: 'grandes', name: 'Hambúrgão c/ Cheddar', description: 'Pão recheado com cheddar derretido.', long: 'Hambúrgão assado no forno, recheado com cheddar derretido.', price: 1, cost: 0.4, stock: 40, img: '/products/forno-hamburgao-cheddar.jpeg', active: true },
-  { id: 'g-doguinho', cat: 'grandes', name: 'Doguinho c/ Requeijão', description: 'Pãozinho macio com salsicha e requeijão.', long: 'Doguinho assado no forno, pãozinho macio com salsicha e requeijão cremoso.', price: 1, cost: 0.4, stock: 40, img: '/products/forno-doguinho.jpeg', active: true },
+  { id: 'g-esfiha-carne', cat: 'forno', name: 'Esfiha de Carne', description: 'Recheio de carne moída bem temperada.', long: 'Esfiha assada no forno, recheio farto de carne moída bem temperada.', price: 6, cost: 2, stock: 40, img: '/products/forno-esfiha-carne.jpeg', active: true },
+  { id: 'g-esfiha-frango', cat: 'forno', name: 'Esfiha de Frango c/ Requeijão', description: 'Frango desfiado com requeijão cremoso.', long: 'Esfiha assada no forno, recheio de frango desfiado com requeijão cremoso.', price: 6, cost: 2, stock: 40, img: '/products/forno-esfiha-frango.jpeg', active: true },
+  { id: 'g-esfiha-calabresa', cat: 'forno', name: 'Esfiha de Calabresa c/ Requeijão', description: 'Calabresa moída com requeijão cremoso.', long: 'Esfiha assada no forno, recheio de calabresa moída com requeijão cremoso.', price: 6, cost: 2, stock: 40, img: '/products/forno-esfiha-calabresa.jpeg', active: true },
+  { id: 'g-bauru', cat: 'forno', name: 'Baurú', description: 'Pão fofinho recheado, assado no forno.', long: 'Baurú assado no forno, pão fofinho e recheio generoso.', price: 6, cost: 2, stock: 40, img: '/products/forno-bauru.jpeg', active: true },
+  { id: 'g-hamburgao', cat: 'forno', name: 'Hambúrgão c/ Cheddar', description: 'Pão recheado com cheddar derretido.', long: 'Hambúrgão assado no forno, recheado com cheddar derretido.', price: 6, cost: 2, stock: 40, img: '/products/forno-hamburgao-cheddar.jpeg', active: true },
+  { id: 'g-doguinho', cat: 'forno', name: 'Doguinho c/ Requeijão', description: 'Pãozinho macio com salsicha e requeijão.', long: 'Doguinho assado no forno, pãozinho macio com salsicha e requeijão cremoso.', price: 6, cost: 2, stock: 40, img: '/products/forno-doguinho.jpeg', active: true },
   { id: 'p-frango', cat: 'pasteis', name: 'Pastelzinho de Frango', description: 'Crocante e recheado.', long: 'Pastelzinho crocante com recheio de frango temperado. Perfeito pra beliscar.', price: 1, cost: 0.4, stock: 100, img: '/products/pasteis.png', badge: 'NOVO', featured: true, active: true },
   { id: 'p-carne', cat: 'pasteis', name: 'Pastelzinho de Carne', description: 'Carne moída bem temperada.', long: 'Massa fininha e crocante com recheio de carne moída.', price: 1, cost: 0.4, stock: 100, img: '/products/pasteis.png', active: true },
   { id: 'p-queijo', cat: 'pasteis', name: 'Pastelzinho de Queijo', description: 'Queijo derretido.', long: 'Pastelzinho crocante recheado com queijo derretido.', price: 1, cost: 0.4, stock: 100, img: '/products/pasteis.png', active: true },

@@ -105,12 +105,12 @@ insert into products (id, cat, name, description, long, price, cost, stock, badg
   ('g-queijo','grandes','Bolinho de Queijo','Muito queijo e sabor.','Puxa-puxa de verdade. Recheio farto de queijo em massa leve e crocante.',5,1.8,60,'QUERIDINHO','/products/p-queijo.jpeg',true,true),
   ('g-risoles','grandes','Risoles','Presunto e queijo cremoso.','Risoles grande, empanado e crocante, com recheio cremoso de presunto e queijo.',5,1.8,60,'','/products/p-risoles.jpeg',false,true),
   ('g-enrolado','grandes','Enrolado de Salsicha','Salsicha suculenta envolvida na massa.','Salsicha inteira envolvida em massa macia e dourada.',5,1.8,60,'','/products/p-enrolado.jpeg',false,true),
-  ('g-esfiha-carne','grandes','Esfiha de Carne','Recheio de carne moída bem temperada.','Esfiha assada no forno, recheio farto de carne moída bem temperada.',1,0.4,40,'','/products/forno-esfiha-carne.jpeg',false,true),
-  ('g-esfiha-frango','grandes','Esfiha de Frango c/ Requeijão','Frango desfiado com requeijão cremoso.','Esfiha assada no forno, recheio de frango desfiado com requeijão cremoso.',1,0.4,40,'','/products/forno-esfiha-frango.jpeg',false,true),
-  ('g-esfiha-calabresa','grandes','Esfiha de Calabresa c/ Requeijão','Calabresa moída com requeijão cremoso.','Esfiha assada no forno, recheio de calabresa moída com requeijão cremoso.',1,0.4,40,'','/products/forno-esfiha-calabresa.jpeg',false,true),
-  ('g-bauru','grandes','Baurú','Pão fofinho recheado, assado no forno.','Baurú assado no forno, pão fofinho e recheio generoso.',1,0.4,40,'','/products/forno-bauru.jpeg',false,true),
-  ('g-hamburgao','grandes','Hambúrgão c/ Cheddar','Pão recheado com cheddar derretido.','Hambúrgão assado no forno, recheado com cheddar derretido.',1,0.4,40,'','/products/forno-hamburgao-cheddar.jpeg',false,true),
-  ('g-doguinho','grandes','Doguinho c/ Requeijão','Pãozinho macio com salsicha e requeijão.','Doguinho assado no forno, pãozinho macio com salsicha e requeijão cremoso.',1,0.4,40,'','/products/forno-doguinho.jpeg',false,true),
+  ('g-esfiha-carne','forno','Esfiha de Carne','Recheio de carne moída bem temperada.','Esfiha assada no forno, recheio farto de carne moída bem temperada.',6,2,40,'','/products/forno-esfiha-carne.jpeg',false,true),
+  ('g-esfiha-frango','forno','Esfiha de Frango c/ Requeijão','Frango desfiado com requeijão cremoso.','Esfiha assada no forno, recheio de frango desfiado com requeijão cremoso.',6,2,40,'','/products/forno-esfiha-frango.jpeg',false,true),
+  ('g-esfiha-calabresa','forno','Esfiha de Calabresa c/ Requeijão','Calabresa moída com requeijão cremoso.','Esfiha assada no forno, recheio de calabresa moída com requeijão cremoso.',6,2,40,'','/products/forno-esfiha-calabresa.jpeg',false,true),
+  ('g-bauru','forno','Baurú','Pão fofinho recheado, assado no forno.','Baurú assado no forno, pão fofinho e recheio generoso.',6,2,40,'','/products/forno-bauru.jpeg',false,true),
+  ('g-hamburgao','forno','Hambúrgão c/ Cheddar','Pão recheado com cheddar derretido.','Hambúrgão assado no forno, recheado com cheddar derretido.',6,2,40,'','/products/forno-hamburgao-cheddar.jpeg',false,true),
+  ('g-doguinho','forno','Doguinho c/ Requeijão','Pãozinho macio com salsicha e requeijão.','Doguinho assado no forno, pãozinho macio com salsicha e requeijão cremoso.',6,2,40,'','/products/forno-doguinho.jpeg',false,true),
   ('p-frango','pasteis','Pastelzinho de Frango','Crocante e recheado.','Pastelzinho crocante com recheio de frango temperado. Perfeito pra beliscar.',1,0.4,100,'NOVO','/products/pasteis.png',true,true),
   ('p-carne','pasteis','Pastelzinho de Carne','Carne moída bem temperada.','Massa fininha e crocante com recheio de carne moída.',1,0.4,100,'','/products/pasteis.png',false,true),
   ('p-queijo','pasteis','Pastelzinho de Queijo','Queijo derretido.','Pastelzinho crocante recheado com queijo derretido.',1,0.4,100,'','/products/pasteis.png',false,true),
@@ -141,6 +141,12 @@ update products set name = 'Bolinho de Carne' where id = 'm-carne';
 update products set name = 'Bolinho de Queijo' where id = 'm-queijo';
 update products set name = 'Risoles' where id = 'm-risoles';
 update products set name = 'Enroladinho de Salsicha' where id = 'm-enrolado';
+
+-- Move the forno items into their own category (was lumped into "grandes"
+-- earlier). Doesn't touch price/cost/stock in case you already edited those
+-- from the admin — only fixes the category.
+update products set cat = 'forno' where id in
+  ('g-esfiha-carne','g-esfiha-frango','g-esfiha-calabresa','g-bauru','g-hamburgao','g-doguinho');
 
 -- Realtime -------------------------------------------------------------
 -- Without this, changes made in the admin (or by another customer) only

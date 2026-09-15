@@ -11,8 +11,9 @@ export const todayISO = () => new Date().toISOString().slice(0, 10)
 export const monthKeyOf = (iso) => (iso || '').slice(0, 7)
 
 export const CAT_LABELS = {
-  minis: 'Minis',
+  minis: 'Salgados de Festa',
   grandes: 'Grandes',
+  forno: 'Forno',
   pasteis: 'Pastéis',
   bebidas: 'Bebidas',
 }

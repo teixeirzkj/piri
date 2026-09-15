@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react'
-import { motion } from 'framer-motion'
 import { useProducts } from '../hooks/useProducts'
 import { useCombos } from '../hooks/useCombos'
 import { useSettings } from '../hooks/useSettings'
@@ -13,6 +12,7 @@ import { orderWhatsAppLink } from '../lib/whatsapp'
 import StoreHeader from '../components/site/StoreHeader'
 import CartFab from '../components/site/CartFab'
 import ComboCarousel from '../components/site/ComboCarousel'
+import ComboModal from '../components/site/ComboModal'
 import FeaturedScroller from '../components/site/FeaturedScroller'
 import ProductRow from '../components/site/ProductRow'
 import ProductModal from '../components/site/ProductModal'
@@ -33,6 +33,7 @@ export default function Cardapio() {
   const [searchOpen, setSearchOpen] = useState(false)
   const [query, setQuery] = useState('')
   const [openProduct, setOpenProduct] = useState(null)
+  const [openCombo, setOpenCombo] = useState(null)
   const [cartOpen, setCartOpen] = useState(false)
   const [toast, setToast] = useState(null)
   const [, forceTick] = useState(0)
@@ -107,7 +108,7 @@ export default function Cardapio() {
 
         {!searchActive && (
           <>
-            <ComboCarousel combos={combos} />
+            <ComboCarousel combos={combos} onSelect={setOpenCombo} />
             <a
               href="https://wa.me/557499829662"
               target="_blank"
@@ -131,11 +132,13 @@ export default function Cardapio() {
         {groups
           .filter((g) => g.items.length > 0)
           .map((g) => (
-            <section key={g.id} id={g.id} className="mt-7.5 scroll-mt-4">
-              <h2 className="font-display text-2xl text-piri-red flex items-center gap-2">
-                <span className="text-3xl">{g.icon}</span> {g.label}
-              </h2>
-              <p className="mt-1 mb-3.5 text-[12.5px] font-bold text-piri-brown">{g.priceNote}</p>
+            <section key={g.id} id={g.id} className="mt-8 scroll-mt-4">
+              <div className="-mx-4 px-4 py-3 bg-piri-dark flex items-center justify-center gap-2.5">
+                <span className="text-sm opacity-80">💛</span>
+                <h2 className="font-display text-xl text-white tracking-wide text-center">{g.label}</h2>
+                <span className="text-sm opacity-80">💛</span>
+              </div>
+              <p className="mt-2.5 mb-3.5 text-[12.5px] font-bold text-piri-brown text-center">{g.priceNote}</p>
               <div className="flex flex-col">
                 {g.items.map((p) => (
                   <ProductRow key={p.id} product={p} qty={cart.cart[p.id] || 0} onOpen={setOpenProduct} onAdd={() => handleAdd(p.id)} onDec={() => cart.dec(p.id)} />
@@ -152,6 +155,8 @@ export default function Cardapio() {
       <Toast message={toast} bottomOffset={cart.count > 0 && !cartOpen ? 88 : 24} />
 
       <ProductModal product={openProduct} onClose={() => setOpenProduct(null)} onAdd={handleAdd} />
+
+      <ComboModal combo={openCombo} products={activeProducts} onClose={() => setOpenCombo(null)} />
 
       <CartDrawer
         open={cartOpen}
