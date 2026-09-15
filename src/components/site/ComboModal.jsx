@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { brl } from '../../lib/format'
-import { COMBO_RULES } from '../../lib/comboRules'
 import { comboOrderWhatsAppLink } from '../../lib/whatsapp'
 
 export default function ComboModal({ combo, products, onClose }) {
@@ -12,7 +11,7 @@ export default function ComboModal({ combo, products, onClose }) {
   }, [combo])
 
   if (!combo) return null
-  const rules = COMBO_RULES[combo.id] || []
+  const rules = combo.rules || []
 
   const productById = (id) => products.find((p) => p.id === id)
   const groupTotal = (group) => group.productIds.reduce((a, id) => a + (selections[id] || 0), 0)

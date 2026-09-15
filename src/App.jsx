@@ -5,6 +5,7 @@ import AdminLogin from './pages/admin/AdminLogin'
 import AdminLayout from './pages/admin/AdminLayout'
 import Painel from './pages/admin/Painel'
 import CardapioAdmin from './pages/admin/CardapioAdmin'
+import CombosAdmin from './pages/admin/CombosAdmin'
 import Pedidos from './pages/admin/Pedidos'
 import NovaVenda from './pages/admin/NovaVenda'
 import Vendas from './pages/admin/Vendas'
@@ -34,6 +35,7 @@ export default function App() {
         >
           <Route index element={<Painel />} />
           <Route path="cardapio" element={<CardapioAdmin />} />
+          <Route path="combos" element={<CombosAdmin />} />
           <Route path="pedidos" element={<Pedidos />} />
           <Route path="nova-venda" element={<NovaVenda />} />
           <Route path="vendas" element={<Vendas />} />

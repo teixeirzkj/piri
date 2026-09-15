@@ -24,8 +24,11 @@ create table if not exists combos (
   name text not null,
   description text default '',
   price numeric not null default 0,
-  img text default ''
+  img text default '',
+  rules jsonb not null default '[]'
 );
+
+alter table combos add column if not exists rules jsonb not null default '[]';
 
 create table if not exists orders (
   id uuid primary key default gen_random_uuid(),
@@ -128,11 +131,23 @@ insert into products (id, cat, name, description, long, price, cost, stock, icon
   ('beb-soda-1l','bebidas','Soda Limão 1 Litro','Garrafa de 1 litro.','Soda Limonada, garrafa de 1 litro.',8,4,24,true,'garrafa','#9ACD32',true)
 on conflict (id) do nothing;
 
-insert into combos (id, name, description, price, img) values
-  ('combo-8','8 Salgados + Refrigerante 1L','Escolha 8 salgados fritos (coxinha, carne, queijo, risoles ou enrolado) + 1 refrigerante de 1 litro à sua escolha.',39,'/products/combo-8-salgados.jpeg'),
-  ('combo-33','Combo 3+3 + Refri 1L','3 salgados fritos + 3 salgados de forno (esfihas) + 1 refrigerante de 1 litro (Guaraná ou Pepsi).',35,'/products/combo-3-mais-3.jpeg'),
-  ('combo-21','2 Fritos + 1 Forno + Refri Lata','2 salgados fritos + 1 salgado de forno + 1 refrigerante lata 350ml.',20,'/products/combo-2-mais-1.jpeg')
+insert into combos (id, name, description, price, img, rules) values
+  ('combo-8','8 Salgados + Refrigerante 1L','Escolha 8 salgados fritos (coxinha, carne, queijo, risoles ou enrolado) + 1 refrigerante de 1 litro à sua escolha.',39,'/products/combo-8-salgados.jpeg',
+    '[{"key":"fritos","label":"Escolha 8 salgados fritos","count":8,"productIds":["m-coxinha","m-carne","m-queijo","m-risoles","m-enrolado"]},{"key":"bebida","label":"Escolha 1 refrigerante de 1 litro","count":1,"productIds":["beb-coca-1l","beb-guarana-1l","beb-sukita-1l","beb-soda-1l"]}]'::jsonb),
+  ('combo-33','Combo 3+3 + Refri 1L','3 salgados fritos + 3 salgados de forno (esfihas) + 1 refrigerante de 1 litro.',35,'/products/combo-3-mais-3.jpeg',
+    '[{"key":"fritos","label":"Escolha 3 salgados fritos","count":3,"productIds":["m-coxinha","m-carne","m-queijo","m-risoles","m-enrolado"]},{"key":"forno","label":"Escolha 3 salgados de forno","count":3,"productIds":["g-esfiha-carne","g-esfiha-frango","g-esfiha-calabresa","g-bauru","g-hamburgao","g-doguinho"]},{"key":"bebida","label":"Escolha 1 refrigerante de 1 litro","count":1,"productIds":["beb-coca-1l","beb-guarana-1l","beb-sukita-1l","beb-soda-1l"]}]'::jsonb),
+  ('combo-21','2 Fritos + 1 Forno + Refri Lata','2 salgados fritos + 1 salgado de forno + 1 refrigerante lata 350ml.',20,'/products/combo-2-mais-1.jpeg',
+    '[{"key":"fritos","label":"Escolha 2 salgados fritos","count":2,"productIds":["m-coxinha","m-carne","m-queijo","m-risoles","m-enrolado"]},{"key":"forno","label":"Escolha 1 salgado de forno","count":1,"productIds":["g-esfiha-carne","g-esfiha-frango","g-esfiha-calabresa","g-bauru","g-hamburgao","g-doguinho"]},{"key":"bebida","label":"Escolha 1 refrigerante lata","count":1,"productIds":["beb-coca-lata","beb-guarana-lata","beb-sukita-lata","beb-sprite-lata"]}]'::jsonb)
 on conflict (id) do nothing;
+
+-- Backfill rules for combos that already existed before the "rules" column
+-- was added (on conflict do nothing above skips them on re-run).
+update combos set rules = '[{"key":"fritos","label":"Escolha 8 salgados fritos","count":8,"productIds":["m-coxinha","m-carne","m-queijo","m-risoles","m-enrolado"]},{"key":"bebida","label":"Escolha 1 refrigerante de 1 litro","count":1,"productIds":["beb-coca-1l","beb-guarana-1l","beb-sukita-1l","beb-soda-1l"]}]'::jsonb
+  where id = 'combo-8' and (rules is null or rules = '[]'::jsonb);
+update combos set rules = '[{"key":"fritos","label":"Escolha 3 salgados fritos","count":3,"productIds":["m-coxinha","m-carne","m-queijo","m-risoles","m-enrolado"]},{"key":"forno","label":"Escolha 3 salgados de forno","count":3,"productIds":["g-esfiha-carne","g-esfiha-frango","g-esfiha-calabresa","g-bauru","g-hamburgao","g-doguinho"]},{"key":"bebida","label":"Escolha 1 refrigerante de 1 litro","count":1,"productIds":["beb-coca-1l","beb-guarana-1l","beb-sukita-1l","beb-soda-1l"]}]'::jsonb
+  where id = 'combo-33' and (rules is null or rules = '[]'::jsonb);
+update combos set rules = '[{"key":"fritos","label":"Escolha 2 salgados fritos","count":2,"productIds":["m-coxinha","m-carne","m-queijo","m-risoles","m-enrolado"]},{"key":"forno","label":"Escolha 1 salgado de forno","count":1,"productIds":["g-esfiha-carne","g-esfiha-frango","g-esfiha-calabresa","g-bauru","g-hamburgao","g-doguinho"]},{"key":"bebida","label":"Escolha 1 refrigerante lata","count":1,"productIds":["beb-coca-lata","beb-guarana-lata","beb-sukita-lata","beb-sprite-lata"]}]'::jsonb
+  where id = 'combo-21' and (rules is null or rules = '[]'::jsonb);
 
 -- Fix names for rows already inserted by an earlier run of this script ---
 

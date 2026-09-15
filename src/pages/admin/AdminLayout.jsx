@@ -6,6 +6,7 @@ import { useAuth } from '../../hooks/useAuth'
 const NAV = [
   { to: '/admin', label: 'Painel', end: true },
   { to: '/admin/cardapio', label: 'Cardápio' },
+  { to: '/admin/combos', label: 'Combos' },
   { to: '/admin/pedidos', label: 'Pedidos' },
   { to: '/admin/nova-venda', label: 'Nova venda' },
   { to: '/admin/vendas', label: 'Vendas' },
@@ -62,7 +63,16 @@ function SidebarContent({ user, onLogout, onNavigate }) {
   )
 }
 
-const NAV_TITLES = { '/admin': 'Painel', '/admin/cardapio': 'Cardápio', '/admin/pedidos': 'Pedidos', '/admin/nova-venda': 'Nova venda', '/admin/vendas': 'Vendas', '/admin/relatorio': 'Relatório', '/admin/config': 'Configurações' }
+const NAV_TITLES = {
+  '/admin': 'Painel',
+  '/admin/cardapio': 'Cardápio',
+  '/admin/combos': 'Combos',
+  '/admin/pedidos': 'Pedidos',
+  '/admin/nova-venda': 'Nova venda',
+  '/admin/vendas': 'Vendas',
+  '/admin/relatorio': 'Relatório',
+  '/admin/config': 'Configurações',
+}
 
 export default function AdminLayout() {
   const { user, signOut } = useAuth()

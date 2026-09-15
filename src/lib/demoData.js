@@ -42,10 +42,47 @@ export const DEMO_PRODUCTS = [
   { id: 'beb-soda-1l', cat: 'bebidas', name: 'Soda Limão 1 Litro', description: 'Garrafa de 1 litro.', long: 'Soda Limonada, garrafa de 1 litro.', price: 8, cost: 4, stock: 24, icon: true, iconKind: 'garrafa', iconColor: '#9ACD32', active: true },
 ]
 
+const FRITOS = ['m-coxinha', 'm-carne', 'm-queijo', 'm-risoles', 'm-enrolado']
+const FORNO = ['g-esfiha-carne', 'g-esfiha-frango', 'g-esfiha-calabresa', 'g-bauru', 'g-hamburgao', 'g-doguinho']
+const REFRI_1L = ['beb-coca-1l', 'beb-guarana-1l', 'beb-sukita-1l', 'beb-soda-1l']
+const REFRI_LATA = ['beb-coca-lata', 'beb-guarana-lata', 'beb-sukita-lata', 'beb-sprite-lata']
+
 export const DEMO_COMBOS = [
-  { id: 'combo-8', name: '8 Salgados + Refrigerante 1L', price: 39, img: '/products/combo-8-salgados.jpeg', description: 'Escolha 8 salgados fritos (coxinha, carne, queijo, risoles ou enrolado) + 1 refrigerante de 1 litro à sua escolha.' },
-  { id: 'combo-33', name: 'Combo 3+3 + Refri 1L', price: 35, img: '/products/combo-3-mais-3.jpeg', description: '3 salgados fritos + 3 salgados de forno (esfihas) + 1 refrigerante de 1 litro (Guaraná ou Pepsi).' },
-  { id: 'combo-21', name: '2 Fritos + 1 Forno + Refri Lata', price: 20, img: '/products/combo-2-mais-1.jpeg', description: '2 salgados fritos + 1 salgado de forno + 1 refrigerante lata 350ml.' },
+  {
+    id: 'combo-8',
+    name: '8 Salgados + Refrigerante 1L',
+    price: 39,
+    img: '/products/combo-8-salgados.jpeg',
+    description: 'Escolha 8 salgados fritos (coxinha, carne, queijo, risoles ou enrolado) + 1 refrigerante de 1 litro à sua escolha.',
+    rules: [
+      { key: 'fritos', label: 'Escolha 8 salgados fritos', count: 8, productIds: FRITOS },
+      { key: 'bebida', label: 'Escolha 1 refrigerante de 1 litro', count: 1, productIds: REFRI_1L },
+    ],
+  },
+  {
+    id: 'combo-33',
+    name: 'Combo 3+3 + Refri 1L',
+    price: 35,
+    img: '/products/combo-3-mais-3.jpeg',
+    description: '3 salgados fritos + 3 salgados de forno (esfihas) + 1 refrigerante de 1 litro.',
+    rules: [
+      { key: 'fritos', label: 'Escolha 3 salgados fritos', count: 3, productIds: FRITOS },
+      { key: 'forno', label: 'Escolha 3 salgados de forno', count: 3, productIds: FORNO },
+      { key: 'bebida', label: 'Escolha 1 refrigerante de 1 litro', count: 1, productIds: REFRI_1L },
+    ],
+  },
+  {
+    id: 'combo-21',
+    name: '2 Fritos + 1 Forno + Refri Lata',
+    price: 20,
+    img: '/products/combo-2-mais-1.jpeg',
+    description: '2 salgados fritos + 1 salgado de forno + 1 refrigerante lata 350ml.',
+    rules: [
+      { key: 'fritos', label: 'Escolha 2 salgados fritos', count: 2, productIds: FRITOS },
+      { key: 'forno', label: 'Escolha 1 salgado de forno', count: 1, productIds: FORNO },
+      { key: 'bebida', label: 'Escolha 1 refrigerante lata', count: 1, productIds: REFRI_LATA },
+    ],
+  },
 ]
 
 export const DEMO_SETTINGS = {

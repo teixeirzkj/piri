@@ -24,12 +24,9 @@ export function orderWhatsAppLink(order) {
 }
 
 export function comboOrderWhatsAppLink(combo, chosenItems) {
-  const lines = [
-    `Olá! Quero pedir o combo: ${combo.name}`,
-    `Total: R$ ${Number(combo.price).toFixed(2).replace('.', ',')}`,
-    '',
-    'Minhas escolhas:',
-    ...chosenItems.map((it) => `• ${it.qty}x ${it.name}`),
-  ]
+  const lines = [`Olá! Quero pedir o combo: ${combo.name}`, `Total: R$ ${Number(combo.price).toFixed(2).replace('.', ',')}`]
+  if (chosenItems.length > 0) {
+    lines.push('', 'Minhas escolhas:', ...chosenItems.map((it) => `• ${it.qty}x ${it.name}`))
+  }
   return waLink(lines.join('\n'))
 }
