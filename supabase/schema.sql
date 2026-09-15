@@ -85,11 +85,11 @@ create policy "admin delete orders" on orders for delete using (auth.role() = 'a
 -- Seed data -------------------------------------------------------------
 
 insert into products (id, cat, name, description, long, price, cost, stock, badge, img, featured, active) values
-  ('m-coxinha','minis','Mini Coxinha de Frango','Frango desfiado bem temperado.','Massa leve e recheio generoso de frango desfiado, bem temperado. Feita na hora, sempre quentinha.',1,0.4,100,'MAIS VENDIDO','/products/p-coxinha.jpeg',true,true),
-  ('m-carne','minis','Mini Bolinho de Carne','Carne moída saborosa.','Bolinho crocante por fora com recheio de carne moída suculenta e temperada.',1,0.4,100,'','/products/p-carne.jpeg',false,true),
-  ('m-queijo','minis','Mini Bolinho de Queijo','Muito queijo e sabor.','Massa dourada com recheio cremoso de queijo que derrete na boca.',1,0.4,100,'QUERIDINHO','/products/p-queijo.jpeg',false,true),
-  ('m-risoles','minis','Mini Risoles','Presunto e queijo cremoso.','Risoles empanado e crocante com recheio cremoso de presunto e queijo.',1,0.4,100,'','/products/p-risoles.jpeg',false,true),
-  ('m-enrolado','minis','Mini Enroladinho de Salsicha','Salsicha envolvida na massa.','Salsicha suculenta envolvida em massa leve e frita na hora.',1,0.4,100,'','/products/p-enrolado.jpeg',false,true),
+  ('m-coxinha','minis','Coxinha de Frango','Frango desfiado bem temperado.','Massa leve e recheio generoso de frango desfiado, bem temperado. Feita na hora, sempre quentinha.',1,0.4,100,'MAIS VENDIDO','/products/p-coxinha.jpeg',true,true),
+  ('m-carne','minis','Bolinho de Carne','Carne moída saborosa.','Bolinho crocante por fora com recheio de carne moída suculenta e temperada.',1,0.4,100,'','/products/p-carne.jpeg',false,true),
+  ('m-queijo','minis','Bolinho de Queijo','Muito queijo e sabor.','Massa dourada com recheio cremoso de queijo que derrete na boca.',1,0.4,100,'QUERIDINHO','/products/p-queijo.jpeg',false,true),
+  ('m-risoles','minis','Risoles','Presunto e queijo cremoso.','Risoles empanado e crocante com recheio cremoso de presunto e queijo.',1,0.4,100,'','/products/p-risoles.jpeg',false,true),
+  ('m-enrolado','minis','Enroladinho de Salsicha','Salsicha envolvida na massa.','Salsicha suculenta envolvida em massa leve e frita na hora.',1,0.4,100,'','/products/p-enrolado.jpeg',false,true),
   ('g-coxinha','grandes','Coxinha','Frango desfiado bem temperado.','A clássica da Piri: massa macia, recheio farto de frango desfiado e crocância na medida certa.',5,1.8,60,'MAIS VENDIDO','/products/p-coxinha.jpeg',true,true),
   ('g-carne','grandes','Bolinho de Carne','Carne moída saborosa.','Tamanho generoso, recheio de carne moída bem temperada e massa dourada.',5,1.8,60,'','/products/p-carne.jpeg',false,true),
   ('g-queijo','grandes','Bolinho de Queijo','Muito queijo e sabor.','Puxa-puxa de verdade. Recheio farto de queijo em massa leve e crocante.',5,1.8,60,'QUERIDINHO','/products/p-queijo.jpeg',true,true),
@@ -123,3 +123,30 @@ insert into combos (id, name, description, price, img) values
   ('combo-33','Combo 3+3 + Refri 1L','3 salgados fritos + 3 salgados de forno (esfihas) + 1 refrigerante de 1 litro (Guaraná ou Pepsi).',35,'/products/combo-3-mais-3.jpeg'),
   ('combo-21','2 Fritos + 1 Forno + Refri Lata','2 salgados fritos + 1 salgado de forno + 1 refrigerante lata 350ml.',20,'/products/combo-2-mais-1.jpeg')
 on conflict (id) do nothing;
+
+-- Fix names for rows already inserted by an earlier run of this script ---
+
+update products set name = 'Coxinha de Frango' where id = 'm-coxinha';
+update products set name = 'Bolinho de Carne' where id = 'm-carne';
+update products set name = 'Bolinho de Queijo' where id = 'm-queijo';
+update products set name = 'Risoles' where id = 'm-risoles';
+update products set name = 'Enroladinho de Salsicha' where id = 'm-enrolado';
+
+-- Realtime -------------------------------------------------------------
+-- Without this, changes made in the admin (or by another customer) only
+-- show up for other open tabs/devices after a manual reload. Safe to run
+-- more than once — it skips any table already in the publication.
+
+do $$
+declare
+  t text;
+begin
+  foreach t in array array['products','combos','orders','settings'] loop
+    if not exists (
+      select 1 from pg_publication_tables
+      where pubname = 'supabase_realtime' and schemaname = 'public' and tablename = t
+    ) then
+      execute format('alter publication supabase_realtime add table public.%I', t);
+    end if;
+  end loop;
+end $$;

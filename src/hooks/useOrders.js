@@ -44,7 +44,9 @@ export function useOrders() {
       notify()
       return withId
     }
-    const { data } = await supabase.from('orders').insert(payload).select().single()
+    const { data, error } = await supabase.from('orders').insert(payload).select().single()
+    if (error) console.error('addOrder failed:', error)
+    if (data) setOrders((os) => [data, ...os])
     return data
   }, [])
 
@@ -54,7 +56,9 @@ export function useOrders() {
       notify()
       return
     }
-    await supabase.from('orders').update(patch).eq('id', id)
+    setOrders((os) => os.map((o) => (o.id === id ? { ...o, ...patch } : o)))
+    const { error } = await supabase.from('orders').update(patch).eq('id', id)
+    if (error) console.error('updateOrder failed:', error)
   }, [])
 
   const deleteOrder = useCallback(async (id) => {
@@ -63,7 +67,9 @@ export function useOrders() {
       notify()
       return
     }
-    await supabase.from('orders').delete().eq('id', id)
+    setOrders((os) => os.filter((o) => o.id !== id))
+    const { error } = await supabase.from('orders').delete().eq('id', id)
+    if (error) console.error('deleteOrder failed:', error)
   }, [])
 
   return { orders, loading, addOrder, updateOrder, deleteOrder }

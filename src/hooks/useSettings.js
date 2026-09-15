@@ -33,7 +33,9 @@ export function useSettings() {
       notify()
       return
     }
-    await supabase.from('settings').update(patch).eq('id', 'store')
+    setSettings((s) => ({ ...(s || {}), ...patch })) // reflect instantly, don't wait on the realtime echo
+    const { error } = await supabase.from('settings').update(patch).eq('id', 'store')
+    if (error) console.error('updateSettings failed:', error)
   }, [])
 
   return { settings, updateSettings }

@@ -35,7 +35,9 @@ export function useProducts() {
       notify()
       return
     }
-    await supabase.from('products').insert(product)
+    setProducts((ps) => [...ps, product])
+    const { error } = await supabase.from('products').insert(product)
+    if (error) console.error('addProduct failed:', error)
   }, [])
 
   const updateProduct = useCallback(async (id, patch) => {
@@ -44,7 +46,9 @@ export function useProducts() {
       notify()
       return
     }
-    await supabase.from('products').update(patch).eq('id', id)
+    setProducts((ps) => ps.map((p) => (p.id === id ? { ...p, ...patch } : p)))
+    const { error } = await supabase.from('products').update(patch).eq('id', id)
+    if (error) console.error('updateProduct failed:', error)
   }, [])
 
   const deleteProduct = useCallback(async (id) => {
@@ -53,7 +57,9 @@ export function useProducts() {
       notify()
       return
     }
-    await supabase.from('products').delete().eq('id', id)
+    setProducts((ps) => ps.filter((p) => p.id !== id))
+    const { error } = await supabase.from('products').delete().eq('id', id)
+    if (error) console.error('deleteProduct failed:', error)
   }, [])
 
   return { products, loading, addProduct, updateProduct, deleteProduct }

@@ -4,18 +4,18 @@
 // so behavior matches once Supabase is connected.
 
 export const CATEGORIES = [
-  { id: 'minis', label: 'Minis', icon: '🧁', priceNote: 'R$ 1,00 a unidade' },
+  { id: 'minis', label: 'Salgados de Festa', icon: '🧁', priceNote: 'R$ 1,00 a unidade' },
   { id: 'grandes', label: 'Salgados grandes', icon: '🍗', priceNote: 'R$ 5,00 cada unidade' },
   { id: 'pasteis', label: 'Pastelzinhos crocantes', icon: '🥟', priceNote: 'R$ 1,00 a unidade' },
   { id: 'bebidas', label: 'Bebidas geladas', icon: '🥤', priceNote: 'Latas R$ 6,00 · 1 Litro R$ 8,00' },
 ]
 
 export const DEMO_PRODUCTS = [
-  { id: 'm-coxinha', cat: 'minis', name: 'Mini Coxinha de Frango', description: 'Frango desfiado bem temperado.', long: 'Massa leve e recheio generoso de frango desfiado, bem temperado. Feita na hora, sempre quentinha.', price: 1, cost: 0.4, stock: 100, img: '/products/p-coxinha.jpeg', badge: 'MAIS VENDIDO', featured: true, active: true },
-  { id: 'm-carne', cat: 'minis', name: 'Mini Bolinho de Carne', description: 'Carne moída saborosa.', long: 'Bolinho crocante por fora com recheio de carne moída suculenta e temperada.', price: 1, cost: 0.4, stock: 100, img: '/products/p-carne.jpeg', active: true },
-  { id: 'm-queijo', cat: 'minis', name: 'Mini Bolinho de Queijo', description: 'Muito queijo e sabor.', long: 'Massa dourada com recheio cremoso de queijo que derrete na boca.', price: 1, cost: 0.4, stock: 100, img: '/products/p-queijo.jpeg', badge: 'QUERIDINHO', active: true },
-  { id: 'm-risoles', cat: 'minis', name: 'Mini Risoles', description: 'Presunto e queijo cremoso.', long: 'Risoles empanado e crocante com recheio cremoso de presunto e queijo.', price: 1, cost: 0.4, stock: 100, img: '/products/p-risoles.jpeg', active: true },
-  { id: 'm-enrolado', cat: 'minis', name: 'Mini Enroladinho de Salsicha', description: 'Salsicha envolvida na massa.', long: 'Salsicha suculenta envolvida em massa leve e frita na hora.', price: 1, cost: 0.4, stock: 100, img: '/products/p-enrolado.jpeg', active: true },
+  { id: 'm-coxinha', cat: 'minis', name: 'Coxinha de Frango', description: 'Frango desfiado bem temperado.', long: 'Massa leve e recheio generoso de frango desfiado, bem temperado. Feita na hora, sempre quentinha.', price: 1, cost: 0.4, stock: 100, img: '/products/p-coxinha.jpeg', badge: 'MAIS VENDIDO', featured: true, active: true },
+  { id: 'm-carne', cat: 'minis', name: 'Bolinho de Carne', description: 'Carne moída saborosa.', long: 'Bolinho crocante por fora com recheio de carne moída suculenta e temperada.', price: 1, cost: 0.4, stock: 100, img: '/products/p-carne.jpeg', active: true },
+  { id: 'm-queijo', cat: 'minis', name: 'Bolinho de Queijo', description: 'Muito queijo e sabor.', long: 'Massa dourada com recheio cremoso de queijo que derrete na boca.', price: 1, cost: 0.4, stock: 100, img: '/products/p-queijo.jpeg', badge: 'QUERIDINHO', active: true },
+  { id: 'm-risoles', cat: 'minis', name: 'Risoles', description: 'Presunto e queijo cremoso.', long: 'Risoles empanado e crocante com recheio cremoso de presunto e queijo.', price: 1, cost: 0.4, stock: 100, img: '/products/p-risoles.jpeg', active: true },
+  { id: 'm-enrolado', cat: 'minis', name: 'Enroladinho de Salsicha', description: 'Salsicha envolvida na massa.', long: 'Salsicha suculenta envolvida em massa leve e frita na hora.', price: 1, cost: 0.4, stock: 100, img: '/products/p-enrolado.jpeg', active: true },
   { id: 'g-coxinha', cat: 'grandes', name: 'Coxinha', description: 'Frango desfiado bem temperado.', long: 'A clássica da Piri: massa macia, recheio farto de frango desfiado e crocância na medida certa.', price: 5, cost: 1.8, stock: 60, img: '/products/p-coxinha.jpeg', badge: 'MAIS VENDIDO', featured: true, active: true },
   { id: 'g-carne', cat: 'grandes', name: 'Bolinho de Carne', description: 'Carne moída saborosa.', long: 'Tamanho generoso, recheio de carne moída bem temperada e massa dourada.', price: 5, cost: 1.8, stock: 60, img: '/products/p-carne.jpeg', active: true },
   { id: 'g-queijo', cat: 'grandes', name: 'Bolinho de Queijo', description: 'Muito queijo e sabor.', long: 'Puxa-puxa de verdade. Recheio farto de queijo em massa leve e crocante.', price: 5, cost: 1.8, stock: 60, img: '/products/p-queijo.jpeg', badge: 'QUERIDINHO', featured: true, active: true },

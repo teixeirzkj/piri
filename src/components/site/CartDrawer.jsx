@@ -2,17 +2,18 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { brl } from '../../lib/format'
 import { MIN_ORDER } from '../../lib/demoData'
+import { getSavedCustomer, saveCustomer } from '../../lib/savedCustomer'
 
 export default function CartDrawer({ open, onClose, items, total, count, onInc, onDec, onClear, drinkOptions, onAddDrink, onSubmitOrder, onBrowse }) {
   const [sauceChoice, setSauceChoice] = useState(null)
   const [sauceWarning, setSauceWarning] = useState(false)
   const [step, setStep] = useState('cart') // cart | details | done
-  const [name, setName] = useState('')
-  const [phone, setPhone] = useState('')
-  const [street, setStreet] = useState('')
-  const [number, setNumber] = useState('')
-  const [neighborhood, setNeighborhood] = useState('')
-  const [city, setCity] = useState('Miguel Calmon')
+  const [name, setName] = useState(() => getSavedCustomer().name)
+  const [phone, setPhone] = useState(() => getSavedCustomer().phone)
+  const [street, setStreet] = useState(() => getSavedCustomer().street)
+  const [number, setNumber] = useState(() => getSavedCustomer().number)
+  const [neighborhood, setNeighborhood] = useState(() => getSavedCustomer().neighborhood)
+  const [city, setCity] = useState(() => getSavedCustomer().city)
   const [payment, setPayment] = useState('pix')
   const [needsChange, setNeedsChange] = useState(null) // 'sim' | 'nao'
   const [changeFor, setChangeFor] = useState('')
@@ -50,6 +51,7 @@ export default function CartDrawer({ open, onClose, items, total, count, onInc, 
       sauce_choice: sauceChoice,
       change_for: payment === 'dinheiro' && needsChange === 'sim' ? changeFor.trim() : null,
     }
+    saveCustomer({ name: name.trim(), phone: phone.trim(), street: street.trim(), number: number.trim(), neighborhood: neighborhood.trim(), city: city.trim() })
     const link = await onSubmitOrder(order)
     setSubmitting(false)
     setStep('done')
@@ -60,11 +62,6 @@ export default function CartDrawer({ open, onClose, items, total, count, onInc, 
     setStep('cart')
     setSauceChoice(null)
     setSauceWarning(false)
-    setName('')
-    setPhone('')
-    setStreet('')
-    setNumber('')
-    setNeighborhood('')
     setPayment('pix')
     setNeedsChange(null)
     setChangeFor('')
@@ -232,7 +229,24 @@ export default function CartDrawer({ open, onClose, items, total, count, onInc, 
                 <button onClick={() => setStep('cart')} className="self-start text-piri-brown font-black text-sm">
                   ‹ Voltar
                 </button>
-                <p className="m-0 font-black text-piri-dark text-lg">Seus dados pra entrega</p>
+                <div className="flex items-center justify-between gap-2">
+                  <p className="m-0 font-black text-piri-dark text-lg">Seus dados pra entrega</p>
+                  {(name || street) && (
+                    <button
+                      onClick={() => {
+                        setName('')
+                        setPhone('')
+                        setStreet('')
+                        setNumber('')
+                        setNeighborhood('')
+                      }}
+                      className="text-piri-brown text-[11px] font-extrabold underline flex-none"
+                    >
+                      Limpar
+                    </button>
+                  )}
+                </div>
+                {(name || street) && <p className="m-0 -mt-2 text-[11.5px] text-piri-brown font-bold">Preenchido com seus dados do último pedido — pode editar à vontade.</p>}
 
                 <div>
                   <p className="text-xs font-black uppercase tracking-wide text-piri-brown mb-1">Nome</p>

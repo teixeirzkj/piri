@@ -123,13 +123,13 @@ export default function Cardapio() {
           .filter((g) => g.items.length > 0)
           .map((g) => (
             <section key={g.id} id={g.id} className="mt-7.5 scroll-mt-4">
-              <h2 className="text-base font-black tracking-wide text-piri-dark uppercase">
-                {g.icon} {g.label}
+              <h2 className="font-display text-2xl text-piri-red flex items-center gap-2">
+                <span className="text-3xl">{g.icon}</span> {g.label}
               </h2>
               <p className="mt-1 mb-3.5 text-[12.5px] font-bold text-piri-brown">{g.priceNote}</p>
               <div className="flex flex-col">
                 {g.items.map((p) => (
-                  <ProductRow key={p.id} product={p} onOpen={setOpenProduct} />
+                  <ProductRow key={p.id} product={p} qty={cart.cart[p.id] || 0} onOpen={setOpenProduct} onAdd={() => handleAdd(p.id)} onDec={() => cart.dec(p.id)} />
                 ))}
               </div>
             </section>
