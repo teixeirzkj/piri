@@ -69,22 +69,12 @@ export default function StoreHeader({ status, hoursLabel, searchOpen, onToggleSe
             )}
           </AnimatePresence>
 
-          <div className="grid grid-cols-3 mt-3 border-t border-piri-dark/10">
-            <div className="text-center py-2 px-1 border-r border-piri-dark/10">
-              <p className="font-display text-[15px] text-piri-red">Grátis</p>
-              <p className="mt-0.5 text-[10px] font-extrabold tracking-wide text-piri-brown">ENTREGA</p>
-            </div>
-            <div className="text-center py-2 px-1 border-r border-piri-dark/10">
-              <p className="font-display text-[15px] text-piri-red">R$ 15,00</p>
-              <p className="mt-0.5 text-[10px] font-extrabold tracking-wide text-piri-brown">PEDIDO MÍNIMO</p>
-            </div>
-            <div className="text-center py-2 px-1">
-              <p className="font-display text-[15px] text-piri-red">Na hora</p>
-              <p className="mt-0.5 text-[10px] font-extrabold tracking-wide text-piri-brown">SEMPRE FRESQUINHO</p>
-            </div>
+          <div className="mt-3 pt-2.5 border-t border-piri-dark/10 text-center">
+            <span className="text-[10px] font-extrabold tracking-wide text-piri-brown">PEDIDO MÍNIMO</span>
+            <span className="font-display text-[15px] text-piri-red ml-1.5">R$ 15,00</span>
           </div>
 
-          <div className="grid grid-cols-2 gap-2.5 my-2.5">
+          <div className="grid grid-cols-2 gap-2.5 mt-2.5 mb-2.5">
             <div className="flex items-center gap-2 bg-[#F1F8F1] border border-[#CFE8CF] rounded-2xl px-3 py-2.5">
               <span className="w-7 h-7 rounded-full bg-piri-green text-white flex items-center justify-center flex-none">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
@@ -108,7 +98,7 @@ export default function StoreHeader({ status, hoursLabel, searchOpen, onToggleSe
               </span>
               <div className="min-w-0">
                 <p className="font-black text-[12.5px] text-[#8a6a10] leading-tight">Feito na hora</p>
-                <p className="mt-0.5 text-[11px] font-bold text-[#a68a3f]">Sempre quentinho</p>
+                <p className="mt-0.5 text-[11px] font-bold text-[#a68a3f] leading-tight">Preparo em 20 a 45 min</p>
               </div>
             </div>
           </div>
