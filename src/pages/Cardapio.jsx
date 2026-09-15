@@ -11,6 +11,7 @@ import { orderWhatsAppLink } from '../lib/whatsapp'
 
 import StoreHeader from '../components/site/StoreHeader'
 import CartFab from '../components/site/CartFab'
+import HeroCarousel from '../components/site/HeroCarousel'
 import ComboCarousel from '../components/site/ComboCarousel'
 import ComboModal from '../components/site/ComboModal'
 import FeaturedScroller from '../components/site/FeaturedScroller'
@@ -102,7 +103,6 @@ export default function Cardapio() {
         onQueryChange={setQuery}
         logoUrl={settings?.logo_url}
         bannerUrl={settings?.banner_url}
-        heroSlides={settings?.hero_slides}
       />
 
       <CartFab count={cart.count} onOpen={() => setCartOpen(true)} />
@@ -112,6 +112,11 @@ export default function Cardapio() {
 
         {!searchActive && (
           <>
+            {settings?.hero_slides?.length > 0 && (
+              <div className="rounded-3xl overflow-hidden aspect-[16/9] mb-6 shadow-[0_8px_20px_rgba(120,60,20,.18)]">
+                <HeroCarousel slides={settings.hero_slides} />
+              </div>
+            )}
             <ComboCarousel combos={combos} onSelect={setOpenCombo} />
             <a
               href="https://wa.me/557499829662"
@@ -122,14 +127,6 @@ export default function Cardapio() {
               Tirar dúvidas no WhatsApp <span className="text-piri-red">›</span>
             </a>
             <FeaturedScroller products={featured} onOpen={setOpenProduct} />
-            <a
-              href="https://wa.me/557499829662"
-              target="_blank"
-              rel="noopener"
-              className="flex items-center justify-center gap-1.5 text-piri-dark font-extrabold text-[13px] py-2.5 border-y border-piri-dark/8 mt-6"
-            >
-              Tirar dúvidas no WhatsApp <span className="text-piri-red">›</span>
-            </a>
           </>
         )}
 

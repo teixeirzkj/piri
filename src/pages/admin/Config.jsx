@@ -73,9 +73,9 @@ function HeroSlidesManager({ slides, onChange }) {
 
   return (
     <div>
-      <Label>Slides do topo (fotos e vídeos)</Label>
+      <Label>Slides (fotos e vídeos)</Label>
       <p className="text-[12px] text-piri-brown font-semibold mb-2 -mt-1">
-        Passam automaticamente na faixa larga do topo do cardápio. Sem nenhum slide aqui, usa a foto de fundo única acima.
+        Passam automaticamente numa faixa entre o cartão da loja e os combos, no cardápio. Some se não tiver nenhum aqui.
       </p>
       {slides.length > 0 && (
         <div className="flex flex-col gap-2 mb-3">
@@ -156,7 +156,7 @@ export default function Config() {
         />
         <ImagePicker
           label="Foto de fundo (banner)"
-          hint="A imagem larga atrás do cartão da loja, no topo do cardápio (usada quando não há slides abaixo)."
+          hint="A imagem larga atrás do cartão da loja, no topo do cardápio. Fica fixa (não é o carrossel de slides abaixo)."
           value={settings?.banner_url}
           fallback={DEFAULT_BANNER}
           aspect="aspect-video"

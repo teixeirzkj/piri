@@ -1,16 +1,11 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { DEFAULT_LOGO, DEFAULT_BANNER } from '../../lib/demoData'
-import HeroCarousel from './HeroCarousel'
 
-export default function StoreHeader({ status, hoursLabel, searchOpen, onToggleSearch, query, onQueryChange, logoUrl, bannerUrl, heroSlides }) {
+export default function StoreHeader({ status, hoursLabel, searchOpen, onToggleSearch, query, onQueryChange, logoUrl, bannerUrl }) {
   return (
     <>
       <div className="relative h-[clamp(150px,26vw,230px)] overflow-hidden bg-piri-dark">
-        {heroSlides && heroSlides.length > 0 ? (
-          <HeroCarousel slides={heroSlides} />
-        ) : (
-          <img src={bannerUrl || DEFAULT_BANNER} alt="" className="w-full h-full object-cover opacity-60" />
-        )}
+        <img src={bannerUrl || DEFAULT_BANNER} alt="" className="w-full h-full object-cover opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-b from-piri-dark/10 to-piri-dark/80 pointer-events-none" />
       </div>
 
