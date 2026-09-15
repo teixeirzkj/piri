@@ -55,11 +55,13 @@ create table if not exists settings (
   days_open integer[] not null default '{0,2,3,4,5,6}',
   force_closed boolean not null default false,
   logo_url text default '',
-  banner_url text default ''
+  banner_url text default '',
+  hero_slides jsonb not null default '[]'
 );
 
 alter table settings add column if not exists logo_url text default '';
 alter table settings add column if not exists banner_url text default '';
+alter table settings add column if not exists hero_slides jsonb not null default '[]';
 
 insert into settings (id) values ('store') on conflict (id) do nothing;
 
@@ -99,6 +101,20 @@ drop policy if exists "admin write orders" on orders;
 create policy "admin write orders" on orders for update using (auth.role() = 'authenticated');
 drop policy if exists "admin delete orders" on orders;
 create policy "admin delete orders" on orders for delete using (auth.role() = 'authenticated');
+
+-- Storage bucket for the hero carousel's photos/videos (too big for a base64
+-- text column, unlike the logo/banner). Public read, owner-only write.
+insert into storage.buckets (id, name, public) values ('media', 'media', true)
+  on conflict (id) do nothing;
+
+drop policy if exists "media public read" on storage.objects;
+create policy "media public read" on storage.objects for select using (bucket_id = 'media');
+drop policy if exists "media admin insert" on storage.objects;
+create policy "media admin insert" on storage.objects for insert with check (bucket_id = 'media' and auth.role() = 'authenticated');
+drop policy if exists "media admin update" on storage.objects;
+create policy "media admin update" on storage.objects for update using (bucket_id = 'media' and auth.role() = 'authenticated');
+drop policy if exists "media admin delete" on storage.objects;
+create policy "media admin delete" on storage.objects for delete using (bucket_id = 'media' and auth.role() = 'authenticated');
 
 -- Seed data -------------------------------------------------------------
 

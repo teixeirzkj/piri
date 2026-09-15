@@ -27,17 +27,22 @@ function formatTime(t) {
   return m && m !== '00' ? `${Number(h)}h${m}` : `${Number(h)}h`
 }
 
+// Week ordered Mon..Sun (not 0..6) so a range like "Ter a Dom" groups correctly
+// instead of splitting at the Sat→Sun wraparound.
+const WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0]
+
 export function hoursLabel(settings) {
   if (!settings) return ''
-  const days = [...new Set(settings.days_open || [])].sort((a, b) => a - b)
-  if (days.length === 0) return 'Fechado temporariamente'
+  const openDays = new Set(settings.days_open || [])
+  const positions = WEEK_ORDER.filter((d) => openDays.has(d))
+  if (positions.length === 0) return 'Fechado temporariamente'
 
   const ranges = []
-  let start = days[0]
-  let prev = days[0]
-  for (let i = 1; i <= days.length; i++) {
-    const d = days[i]
-    if (d === prev + 1) {
+  let start = positions[0]
+  let prev = positions[0]
+  for (let i = 1; i <= positions.length; i++) {
+    const d = positions[i]
+    if (d !== undefined && WEEK_ORDER.indexOf(d) === WEEK_ORDER.indexOf(prev) + 1) {
       prev = d
       continue
     }

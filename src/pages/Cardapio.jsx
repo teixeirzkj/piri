@@ -102,6 +102,7 @@ export default function Cardapio() {
         onQueryChange={setQuery}
         logoUrl={settings?.logo_url}
         bannerUrl={settings?.banner_url}
+        heroSlides={settings?.hero_slides}
       />
 
       <CartFab count={cart.count} onOpen={() => setCartOpen(true)} />

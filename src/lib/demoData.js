@@ -86,6 +86,7 @@ export const DEMO_SETTINGS = {
   force_closed: false,
   logo_url: '',
   banner_url: '',
+  hero_slides: [],
 }
 
 export const WHATSAPP_NUMBER = '557499829662'

@@ -3,6 +3,7 @@ import { supabase } from '../../lib/supabase'
 import { useAuth } from '../../hooks/useAuth'
 import { useSettings } from '../../hooks/useSettings'
 import { resizeImage } from '../../lib/resizeImage'
+import { uploadMedia, deleteMedia } from '../../lib/uploadMedia'
 import { DEFAULT_LOGO, DEFAULT_BANNER } from '../../lib/demoData'
 import { Card, Label, Field, Button } from '../../components/admin/ui'
 
@@ -32,6 +33,90 @@ function ImagePicker({ label, hint, value, fallback, aspect, onChange, onReset }
           )}
         </div>
       </div>
+    </div>
+  )
+}
+
+function HeroSlidesManager({ slides, onChange }) {
+  const [uploading, setUploading] = useState(false)
+  const [error, setError] = useState('')
+
+  const addFile = async (file) => {
+    if (!file) return
+    if (file.size > 25 * 1024 * 1024) {
+      setError('Arquivo muito grande (máx. 25MB).')
+      return
+    }
+    setError('')
+    setUploading(true)
+    try {
+      const slide = await uploadMedia(file)
+      onChange([...slides, slide])
+    } catch (e) {
+      setError('Falha ao enviar: ' + e.message)
+    }
+    setUploading(false)
+  }
+
+  const remove = (idx) => {
+    deleteMedia(slides[idx]?.url)
+    onChange(slides.filter((_, i) => i !== idx))
+  }
+
+  const move = (idx, dir) => {
+    const j = idx + dir
+    if (j < 0 || j >= slides.length) return
+    const next = [...slides]
+    ;[next[idx], next[j]] = [next[j], next[idx]]
+    onChange(next)
+  }
+
+  return (
+    <div>
+      <Label>Slides do topo (fotos e vídeos)</Label>
+      <p className="text-[12px] text-piri-brown font-semibold mb-2 -mt-1">
+        Passam automaticamente na faixa larga do topo do cardápio. Sem nenhum slide aqui, usa a foto de fundo única acima.
+      </p>
+      {slides.length > 0 && (
+        <div className="flex flex-col gap-2 mb-3">
+          {slides.map((s, idx) => (
+            <div key={s.url} className="flex items-center gap-2.5 bg-[#F4E4C8] rounded-xl p-2">
+              <div className="w-16 h-11 rounded-lg overflow-hidden bg-piri-dark flex-none">
+                {s.type === 'video' ? (
+                  <video src={s.url} className="w-full h-full object-cover" muted />
+                ) : (
+                  <img src={s.url} alt="" className="w-full h-full object-cover" />
+                )}
+              </div>
+              <span className="text-[11px] font-extrabold text-piri-brown flex-1">
+                {s.type === 'video' ? '🎥 Vídeo' : '🖼️ Foto'} {idx + 1}
+              </span>
+              <button onClick={() => move(idx, -1)} disabled={idx === 0} className="text-piri-dark disabled:opacity-25 font-black px-1">
+                ↑
+              </button>
+              <button onClick={() => move(idx, 1)} disabled={idx === slides.length - 1} className="text-piri-dark disabled:opacity-25 font-black px-1">
+                ↓
+              </button>
+              <button onClick={() => remove(idx)} className="text-piri-red font-extrabold text-[11px] underline px-1">
+                Remover
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+      <input
+        type="file"
+        accept="image/*,video/*"
+        onChange={(e) => {
+          const f = e.target.files?.[0]
+          addFile(f)
+          e.target.value = ''
+        }}
+        disabled={uploading}
+        className="text-xs"
+      />
+      {uploading && <p className="text-[11px] font-bold text-piri-brown mt-1">Enviando...</p>}
+      {error && <p className="text-[11px] font-bold text-piri-red mt-1">{error}</p>}
     </div>
   )
 }
@@ -71,13 +156,14 @@ export default function Config() {
         />
         <ImagePicker
           label="Foto de fundo (banner)"
-          hint="A imagem larga atrás do cartão da loja, no topo do cardápio."
+          hint="A imagem larga atrás do cartão da loja, no topo do cardápio (usada quando não há slides abaixo)."
           value={settings?.banner_url}
           fallback={DEFAULT_BANNER}
           aspect="aspect-video"
           onChange={(dataUrl) => updateSettings({ banner_url: dataUrl })}
           onReset={() => updateSettings({ banner_url: '' })}
         />
+        <HeroSlidesManager slides={settings?.hero_slides || []} onChange={(slides) => updateSettings({ hero_slides: slides })} />
       </Card>
 
       <Card className="max-w-[360px]">
