@@ -1,41 +1,11 @@
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence, motion } from 'framer-motion'
 
-export default function StoreHeader({ status, cartCount, onOpenCart, searchOpen, onToggleSearch, query, onQueryChange }) {
+export default function StoreHeader({ status, searchOpen, onToggleSearch, query, onQueryChange }) {
   return (
     <>
       <div className="relative h-[clamp(120px,20vw,190px)] overflow-hidden bg-piri-dark">
         <img src="/products/hero-tray.png" alt="" className="w-full h-full object-cover opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-b from-piri-dark/10 to-piri-dark/80" />
-        <div className="absolute top-3.5 left-0 right-0 flex justify-center">
-          <div className="w-full max-w-[640px] px-4 flex justify-end gap-2.5">
-            <motion.button
-              whileTap={{ scale: 0.9 }}
-              onClick={onOpenCart}
-              aria-label="Abrir carrinho"
-              className="relative flex-none w-10.5 h-10.5 rounded-full bg-white/90 text-piri-dark flex items-center justify-center shadow-lg"
-            >
-              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M6 6h15l-1.5 9h-12z" />
-                <path d="M6 6 5 3H2" />
-                <circle cx="9" cy="20" r="1.5" />
-                <circle cx="18" cy="20" r="1.5" />
-              </svg>
-              <AnimatePresence>
-                {cartCount > 0 && (
-                  <motion.span
-                    key={cartCount}
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    exit={{ scale: 0 }}
-                    className="absolute -top-1 -right-1 min-w-[19px] h-[19px] px-1 rounded-full bg-piri-red text-white text-[10.5px] font-black flex items-center justify-center shadow-[0_0_0_2px_white]"
-                  >
-                    {cartCount}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </motion.button>
-          </div>
-        </div>
       </div>
 
       <motion.div

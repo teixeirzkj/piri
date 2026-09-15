@@ -11,6 +11,7 @@ import { computeStoreStatus } from '../lib/storeStatus'
 import { orderWhatsAppLink } from '../lib/whatsapp'
 
 import StoreHeader from '../components/site/StoreHeader'
+import CartFab from '../components/site/CartFab'
 import ComboCarousel from '../components/site/ComboCarousel'
 import FeaturedScroller from '../components/site/FeaturedScroller'
 import ProductRow from '../components/site/ProductRow'
@@ -90,8 +91,6 @@ export default function Cardapio() {
     <div className="min-h-screen flex flex-col bg-piri-cream">
       <StoreHeader
         status={status}
-        cartCount={cart.count}
-        onOpenCart={() => setCartOpen(true)}
         searchOpen={searchOpen}
         onToggleSearch={() => {
           setSearchOpen((s) => !s)
@@ -100,6 +99,8 @@ export default function Cardapio() {
         query={query}
         onQueryChange={setQuery}
       />
+
+      <CartFab count={cart.count} onOpen={() => setCartOpen(true)} />
 
       <main className="max-w-[640px] mx-auto px-4 pt-5.5 pb-10 w-full flex-1">
         {searchActive && <p className="mb-1 font-extrabold text-[13px] text-piri-brown">Resultados para "{query.trim()}"</p>}

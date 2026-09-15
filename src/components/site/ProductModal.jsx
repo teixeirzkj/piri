@@ -28,13 +28,13 @@ export default function ProductModal({ product, onClose, onAdd }) {
             transition={{ type: 'spring', damping: 26, stiffness: 300 }}
             role="dialog"
             aria-label={product.name}
-            className="fixed z-[63] bg-white flex flex-col overflow-hidden left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(92vw,520px)] max-h-[90vh] rounded-[28px] shadow-2xl"
+            className="fixed z-[63] bg-white overflow-y-auto left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(92vw,520px)] max-h-[90vh] rounded-[28px] shadow-2xl"
           >
-            <div className="relative h-[260px] flex-none bg-[#F4E4C8] flex items-center justify-center">
+            <div className="relative w-full aspect-square flex-none bg-[#F4E4C8] flex items-center justify-center">
               {product.icon ? (
                 <DrinkIcon kind={product.iconKind} color={product.iconColor} size={110} />
               ) : (
-                <img src={product.img} alt={product.name} className="w-full h-full object-cover" />
+                <img src={product.img} alt={product.name} className="w-full h-full object-contain" />
               )}
               <button
                 onClick={onClose}
@@ -56,7 +56,7 @@ export default function ProductModal({ product, onClose, onAdd }) {
                   )
                 })()}
             </div>
-            <div className="p-5 flex flex-col gap-2.5 overflow-y-auto">
+            <div className="p-5 flex flex-col gap-2.5">
               <h2 className="font-display text-[28px] text-piri-dark leading-tight m-0">{product.name}</h2>
               <p className="m-0 text-piri-brown font-semibold text-[15px] leading-relaxed">{product.long || product.description}</p>
               <div className="flex items-center justify-between gap-3 mt-2 flex-wrap">
