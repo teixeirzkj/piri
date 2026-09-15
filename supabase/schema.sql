@@ -120,16 +120,28 @@ insert into products (id, cat, name, description, long, price, cost, stock, badg
   ('p-calabresa','pasteis','Pastelzinho de Calabresa','Calabresa com cebola.','Recheio de calabresa moída com cebola, em massa crocante.',1,0.4,100,'','/products/pasteis.png',false,true)
 on conflict (id) do nothing;
 
-insert into products (id, cat, name, description, long, price, cost, stock, icon, icon_kind, icon_color, active) values
-  ('beb-coca-lata','bebidas','Coca-Cola Lata 350ml','Bem geladinha.','Coca-Cola gelada, lata de 350ml.',6,3,48,true,'lata','#C1121F',true),
-  ('beb-guarana-lata','bebidas','Guaraná Antarctica Lata 350ml','Bem geladinha.','Guaraná Antarctica gelado, lata de 350ml.',6,3,48,true,'lata','#1f8a3b',true),
-  ('beb-sukita-lata','bebidas','Sukita Laranja Lata 350ml','Bem geladinha.','Sukita sabor laranja, lata de 350ml.',6,3,48,true,'lata','#FF8A00',true),
-  ('beb-sprite-lata','bebidas','Sprite Lata 350ml','Bem geladinha.','Sprite gelado, lata de 350ml.',6,3,48,true,'lata','#2E9E4F',true),
-  ('beb-coca-1l','bebidas','Coca-Cola 1 Litro','Garrafa de 1 litro.','Coca-Cola, garrafa de 1 litro.',8,4,24,true,'garrafa','#C1121F',true),
-  ('beb-guarana-1l','bebidas','Guaraná Antarctica 1 Litro','Garrafa de 1 litro.','Guaraná Antarctica, garrafa de 1 litro.',8,4,24,true,'garrafa','#1f8a3b',true),
-  ('beb-sukita-1l','bebidas','Sukita Laranja 1 Litro','Garrafa de 1 litro.','Sukita sabor laranja, garrafa de 1 litro.',8,4,24,true,'garrafa','#FF8A00',true),
-  ('beb-soda-1l','bebidas','Soda Limão 1 Litro','Garrafa de 1 litro.','Soda Limonada, garrafa de 1 litro.',8,4,24,true,'garrafa','#9ACD32',true)
+insert into products (id, cat, name, description, long, price, cost, stock, img, active) values
+  ('beb-coca-lata','bebidas','Coca-Cola Lata 350ml','Bem geladinha.','Coca-Cola gelada, lata de 350ml.',6,3,48,'/products/beb-coca-lata.jpg',true),
+  ('beb-guarana-lata','bebidas','Guaraná Antarctica Lata 350ml','Bem geladinha.','Guaraná Antarctica gelado, lata de 350ml.',6,3,48,'/products/beb-guarana-lata.jpg',true),
+  ('beb-sukita-lata','bebidas','Sukita Laranja Lata 350ml','Bem geladinha.','Sukita sabor laranja, lata de 350ml.',6,3,48,'/products/beb-sukita-lata.jpg',true),
+  ('beb-sprite-lata','bebidas','Sprite Lata 350ml','Bem geladinha.','Sprite gelado, lata de 350ml.',6,3,48,'/products/beb-sprite-lata.jpg',true),
+  ('beb-coca-1l','bebidas','Coca-Cola 1 Litro','Garrafa de 1 litro.','Coca-Cola, garrafa de 1 litro.',8,4,24,'/products/beb-coca-1l.jpg',true),
+  ('beb-guarana-1l','bebidas','Guaraná Antarctica 1 Litro','Garrafa de 1 litro.','Guaraná Antarctica, garrafa de 1 litro.',8,4,24,'/products/beb-guarana-1l.jpg',true),
+  ('beb-sukita-1l','bebidas','Sukita Laranja 1 Litro','Garrafa de 1 litro.','Sukita sabor laranja, garrafa de 1 litro.',8,4,24,'/products/beb-sukita-1l.jpg',true),
+  ('beb-soda-1l','bebidas','Sprite 1 Litro','Garrafa de 1 litro.','Sprite, garrafa de 1 litro.',8,4,24,'/products/beb-sprite-1l.jpg',true)
 on conflict (id) do nothing;
+
+-- Switch the drinks that already existed (inserted before we had real
+-- photos) from the placeholder icon over to the real photo, and correct the
+-- 1L flavor that turned out to be Sprite, not "Soda Limão".
+update products set icon = false, img = '/products/beb-coca-lata.jpg' where id = 'beb-coca-lata';
+update products set icon = false, img = '/products/beb-guarana-lata.jpg' where id = 'beb-guarana-lata';
+update products set icon = false, img = '/products/beb-sukita-lata.jpg' where id = 'beb-sukita-lata';
+update products set icon = false, img = '/products/beb-sprite-lata.jpg' where id = 'beb-sprite-lata';
+update products set icon = false, img = '/products/beb-coca-1l.jpg' where id = 'beb-coca-1l';
+update products set icon = false, img = '/products/beb-guarana-1l.jpg' where id = 'beb-guarana-1l';
+update products set icon = false, img = '/products/beb-sukita-1l.jpg' where id = 'beb-sukita-1l';
+update products set icon = false, img = '/products/beb-sprite-1l.jpg', name = 'Sprite 1 Litro', description = 'Garrafa de 1 litro.', long = 'Sprite, garrafa de 1 litro.' where id = 'beb-soda-1l';
 
 insert into combos (id, name, description, price, img, rules) values
   ('combo-8','8 Salgados + Refrigerante 1L','Escolha 8 salgados fritos (coxinha, carne, queijo, risoles ou enrolado) + 1 refrigerante de 1 litro à sua escolha.',39,'/products/combo-8-salgados.jpeg',

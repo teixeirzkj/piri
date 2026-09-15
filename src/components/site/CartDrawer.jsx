@@ -149,7 +149,9 @@ export default function CartDrawer({ open, onClose, items, total, count, onInc, 
                             onClick={() => onAddDrink(d.id)}
                             className="flex-none flex items-center gap-2 bg-piri-cream border border-piri-dark/10 rounded-full pl-1 pr-3 py-1"
                           >
-                            <span className="w-6.5 h-6.5 rounded-full inline-block" style={{ background: d.iconColor }} />
+                            <span className="w-6.5 h-6.5 rounded-full overflow-hidden inline-block bg-white flex-none">
+                              {d.img && <img src={d.img} alt="" className="w-full h-full object-cover" />}
+                            </span>
                             <span className="text-xs font-extrabold text-piri-dark whitespace-nowrap">
                               {d.name.split(' ').slice(0, 2).join(' ')} · {brl(d.price)}
                             </span>
