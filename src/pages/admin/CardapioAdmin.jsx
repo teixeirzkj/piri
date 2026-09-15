@@ -5,7 +5,7 @@ import { brl, CAT_LABELS } from '../../lib/format'
 import { Card, Label, Field, Button } from '../../components/admin/ui'
 import DrinkIcon from '../../components/site/DrinkIcon'
 
-const emptyForm = () => ({ id: null, name: '', cat: 'minis', desc: '', price: '1', cost: '0', stock: '0', badge: '', active: true, img: '' })
+const emptyForm = () => ({ id: null, name: '', cat: 'minis', description: '', price: '1', cost: '0', stock: '0', badge: '', active: true, img: '' })
 
 function resizeImage(file, cb) {
   const reader = new FileReader()
@@ -38,7 +38,7 @@ export default function CardapioAdmin() {
     setModalOpen(true)
   }
   const openEdit = (p) => {
-    setForm({ id: p.id, name: p.name, cat: p.cat, desc: p.desc || '', price: String(p.price), cost: String(p.cost || 0), stock: String(p.stock ?? 0), badge: p.badge || '', active: p.active !== false, img: p.img || '' })
+    setForm({ id: p.id, name: p.name, cat: p.cat, description: p.description || '', price: String(p.price), cost: String(p.cost || 0), stock: String(p.stock ?? 0), badge: p.badge || '', active: p.active !== false, img: p.img || '' })
     setModalOpen(true)
   }
 
@@ -47,7 +47,7 @@ export default function CardapioAdmin() {
     const data = {
       name: form.name.trim(),
       cat: form.cat,
-      desc: form.desc,
+      description: form.description,
       price: Number(form.price) || 0,
       cost: Number(form.cost) || 0,
       stock: Number(form.stock) || 0,
@@ -89,7 +89,7 @@ export default function CardapioAdmin() {
                   <span className="font-extrabold text-[10px] text-piri-red bg-[#FBEAEA] px-1.5 py-0.5 rounded-full">{CAT_LABELS[p.cat] || p.cat}</span>
                   {p.active === false && <span className="font-extrabold text-[10px] text-piri-brown bg-piri-cream px-1.5 py-0.5 rounded-full">INATIVO</span>}
                 </div>
-                <p className="mt-1 text-[12.5px] text-piri-brown font-semibold">{p.desc}</p>
+                <p className="mt-1 text-[12.5px] text-piri-brown font-semibold">{p.description}</p>
               </div>
             </div>
             <div className="flex items-center justify-between sm:flex-col sm:items-end sm:justify-start flex-none sm:text-right gap-1">
@@ -155,7 +155,7 @@ export default function CardapioAdmin() {
                 </div>
                 <div>
                   <Label>Descrição</Label>
-                  <Field value={form.desc} onChange={(e) => setForm((f) => ({ ...f, desc: e.target.value }))} />
+                  <Field value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} />
                 </div>
                 <div className="grid grid-cols-3 gap-2.5">
                   <div>

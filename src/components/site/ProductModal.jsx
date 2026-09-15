@@ -58,7 +58,7 @@ export default function ProductModal({ product, onClose, onAdd }) {
             </div>
             <div className="p-5 flex flex-col gap-2.5 overflow-y-auto">
               <h2 className="font-display text-[28px] text-piri-dark leading-tight m-0">{product.name}</h2>
-              <p className="m-0 text-piri-brown font-semibold text-[15px] leading-relaxed">{product.long || product.desc}</p>
+              <p className="m-0 text-piri-brown font-semibold text-[15px] leading-relaxed">{product.long || product.description}</p>
               <div className="flex items-center justify-between gap-3 mt-2 flex-wrap">
                 <span className="font-display text-3xl text-piri-red">{brl(product.price)}</span>
                 <div className="flex items-center gap-1.5 bg-piri-cream rounded-full p-1">

@@ -23,7 +23,7 @@ export default function ProductRow({ product, onOpen }) {
             </span>
           )}
         </p>
-        <p className="mt-1 text-[13px] font-semibold text-piri-brown leading-snug">{product.desc}</p>
+        <p className="mt-1 text-[13px] font-semibold text-piri-brown leading-snug">{product.description}</p>
         <p className="font-display mt-1.5 text-[17px] text-piri-red">{brl(product.price)}</p>
       </div>
       <div className="relative flex-none w-21 h-21 rounded-2xl overflow-hidden bg-[#F4E4C8] flex items-center justify-center">

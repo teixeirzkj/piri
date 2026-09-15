@@ -5,7 +5,7 @@ create table if not exists products (
   id text primary key,
   cat text not null,
   name text not null,
-  desc text default '',
+  description text default '',
   long text default '',
   price numeric not null default 0,
   cost numeric not null default 0,
@@ -22,7 +22,7 @@ create table if not exists products (
 create table if not exists combos (
   id text primary key,
   name text not null,
-  desc text default '',
+  description text default '',
   price numeric not null default 0,
   img text default ''
 );
@@ -84,7 +84,7 @@ create policy "admin delete orders" on orders for delete using (auth.role() = 'a
 
 -- Seed data -------------------------------------------------------------
 
-insert into products (id, cat, name, desc, long, price, cost, stock, badge, img, featured, active) values
+insert into products (id, cat, name, description, long, price, cost, stock, badge, img, featured, active) values
   ('m-coxinha','minis','Mini Coxinha de Frango','Frango desfiado bem temperado.','Massa leve e recheio generoso de frango desfiado, bem temperado. Feita na hora, sempre quentinha.',1,0.4,100,'MAIS VENDIDO','/products/p-coxinha.jpeg',true,true),
   ('m-carne','minis','Mini Bolinho de Carne','Carne moída saborosa.','Bolinho crocante por fora com recheio de carne moída suculenta e temperada.',1,0.4,100,'','/products/p-carne.jpeg',false,true),
   ('m-queijo','minis','Mini Bolinho de Queijo','Muito queijo e sabor.','Massa dourada com recheio cremoso de queijo que derrete na boca.',1,0.4,100,'QUERIDINHO','/products/p-queijo.jpeg',false,true),
@@ -107,7 +107,7 @@ insert into products (id, cat, name, desc, long, price, cost, stock, badge, img,
   ('p-calabresa','pasteis','Pastelzinho de Calabresa','Calabresa com cebola.','Recheio de calabresa moída com cebola, em massa crocante.',1,0.4,100,'','/products/pasteis.png',false,true)
 on conflict (id) do nothing;
 
-insert into products (id, cat, name, desc, long, price, cost, stock, icon, icon_kind, icon_color, active) values
+insert into products (id, cat, name, description, long, price, cost, stock, icon, icon_kind, icon_color, active) values
   ('beb-coca-lata','bebidas','Coca-Cola Lata 350ml','Bem geladinha.','Coca-Cola gelada, lata de 350ml.',6,3,48,true,'lata','#C1121F',true),
   ('beb-guarana-lata','bebidas','Guaraná Antarctica Lata 350ml','Bem geladinha.','Guaraná Antarctica gelado, lata de 350ml.',6,3,48,true,'lata','#1f8a3b',true),
   ('beb-sukita-lata','bebidas','Sukita Laranja Lata 350ml','Bem geladinha.','Sukita sabor laranja, lata de 350ml.',6,3,48,true,'lata','#FF8A00',true),
@@ -118,7 +118,7 @@ insert into products (id, cat, name, desc, long, price, cost, stock, icon, icon_
   ('beb-soda-1l','bebidas','Soda Limão 1 Litro','Garrafa de 1 litro.','Soda Limonada, garrafa de 1 litro.',8,4,24,true,'garrafa','#9ACD32',true)
 on conflict (id) do nothing;
 
-insert into combos (id, name, desc, price, img) values
+insert into combos (id, name, description, price, img) values
   ('combo-8','8 Salgados + Refrigerante 1L','Escolha 8 salgados fritos (coxinha, carne, queijo, risoles ou enrolado) + 1 refrigerante de 1 litro à sua escolha.',39,'/products/combo-8-salgados.jpeg'),
   ('combo-33','Combo 3+3 + Refri 1L','3 salgados fritos + 3 salgados de forno (esfihas) + 1 refrigerante de 1 litro (Guaraná ou Pepsi).',35,'/products/combo-3-mais-3.jpeg'),
   ('combo-21','2 Fritos + 1 Forno + Refri Lata','2 salgados fritos + 1 salgado de forno + 1 refrigerante lata 350ml.',20,'/products/combo-2-mais-1.jpeg')
