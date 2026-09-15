@@ -1,9 +1,11 @@
-export default function Footer() {
+import { DEFAULT_LOGO } from '../../lib/demoData'
+
+export default function Footer({ logoUrl }) {
   return (
     <footer className="bg-piri-dark text-piri-cream pt-9 pb-6 px-4 mt-auto">
       <div className="max-w-[640px] mx-auto flex flex-col gap-4">
         <div className="flex items-center gap-3">
-          <img src="/products/logo-piri.png" alt="Piri Coxinha" className="w-11 h-11 rounded-2xl object-cover shadow-[0_0_0_2px_#FFC72C]" />
+          <img src={logoUrl || DEFAULT_LOGO} alt="Piri Coxinha" className="w-11 h-11 rounded-2xl object-cover shadow-[0_0_0_2px_#FFC72C]" />
           <div>
             <p className="font-display m-0 text-[19px] leading-none">Piri Coxinha</p>
             <p className="mt-0.5 text-xs font-bold text-piri-cream/70">Pequenos no tamanho, gigantes no sabor!</p>

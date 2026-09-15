@@ -3,25 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useCombos } from '../../hooks/useCombos'
 import { useProducts } from '../../hooks/useProducts'
 import { brl, CAT_LABELS } from '../../lib/format'
+import { resizeImage } from '../../lib/resizeImage'
 import { Card, Label, Field, Button } from '../../components/admin/ui'
-
-function resizeImage(file, cb) {
-  const reader = new FileReader()
-  reader.onload = () => {
-    const img = new Image()
-    img.onload = () => {
-      const maxW = 500
-      const scale = Math.min(1, maxW / img.width)
-      const canvas = document.createElement('canvas')
-      canvas.width = Math.round(img.width * scale)
-      canvas.height = Math.round(img.height * scale)
-      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height)
-      cb(canvas.toDataURL('image/jpeg', 0.78))
-    }
-    img.src = reader.result
-  }
-  reader.readAsDataURL(file)
-}
 
 const emptyForm = () => ({ id: null, name: '', description: '', price: '20', img: '', rules: [] })
 const emptyGroup = () => ({ key: `grupo-${Date.now().toString(36)}`, label: '', count: 1, productIds: [] })

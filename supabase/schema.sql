@@ -53,8 +53,13 @@ create table if not exists settings (
   open_time text not null default '10:00',
   close_time text not null default '22:00',
   days_open integer[] not null default '{0,2,3,4,5,6}',
-  force_closed boolean not null default false
+  force_closed boolean not null default false,
+  logo_url text default '',
+  banner_url text default ''
 );
+
+alter table settings add column if not exists logo_url text default '';
+alter table settings add column if not exists banner_url text default '';
 
 insert into settings (id) values ('store') on conflict (id) do nothing;
 

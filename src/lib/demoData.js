@@ -75,12 +75,17 @@ export const DEMO_COMBOS = [
   },
 ]
 
+export const DEFAULT_LOGO = '/products/logo-piri.png'
+export const DEFAULT_BANNER = '/products/hero-tray.png'
+
 export const DEMO_SETTINGS = {
   id: 'store',
   open_time: '10:00',
   close_time: '22:00',
   days_open: [0, 2, 3, 4, 5, 6],
   force_closed: false,
+  logo_url: '',
+  banner_url: '',
 }
 
 export const WHATSAPP_NUMBER = '557499829662'

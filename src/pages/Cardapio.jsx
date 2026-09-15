@@ -99,6 +99,8 @@ export default function Cardapio() {
         }}
         query={query}
         onQueryChange={setQuery}
+        logoUrl={settings?.logo_url}
+        bannerUrl={settings?.banner_url}
       />
 
       <CartFab count={cart.count} onOpen={() => setCartOpen(true)} />
@@ -147,7 +149,7 @@ export default function Cardapio() {
           ))}
       </main>
 
-      <Footer />
+      <Footer logoUrl={settings?.logo_url} />
 
       <FloatingCartBar show={cart.count > 0 && !cartOpen && !openProduct} count={cart.count} total={cart.total} onOpen={() => setCartOpen(true)} />
 
@@ -172,6 +174,7 @@ export default function Cardapio() {
         }}
         onSubmitOrder={handleSubmitOrder}
         onBrowse={() => setCartOpen(false)}
+        logoUrl={settings?.logo_url}
       />
     </div>
   )

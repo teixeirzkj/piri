@@ -1,10 +1,11 @@
 import { AnimatePresence, motion } from 'framer-motion'
+import { DEFAULT_LOGO, DEFAULT_BANNER } from '../../lib/demoData'
 
-export default function StoreHeader({ status, searchOpen, onToggleSearch, query, onQueryChange }) {
+export default function StoreHeader({ status, searchOpen, onToggleSearch, query, onQueryChange, logoUrl, bannerUrl }) {
   return (
     <>
       <div className="relative h-[clamp(120px,20vw,190px)] overflow-hidden bg-piri-dark">
-        <img src="/products/hero-tray.png" alt="" className="w-full h-full object-cover opacity-60" />
+        <img src={bannerUrl || DEFAULT_BANNER} alt="" className="w-full h-full object-cover opacity-60" />
         <div className="absolute inset-0 bg-gradient-to-b from-piri-dark/10 to-piri-dark/80" />
       </div>
 
@@ -16,7 +17,7 @@ export default function StoreHeader({ status, searchOpen, onToggleSearch, query,
       >
         <div className="bg-white rounded-3xl shadow-[0_12px_32px_rgba(120,60,20,.16)] px-4.5 pt-4.5 pb-1.5">
           <div className="flex items-start gap-3">
-            <img src="/products/logo-piri.png" alt="Piri Coxinha" className="w-13 h-13 rounded-2xl object-cover flex-none shadow-[0_0_0_2px_#FFC72C]" />
+            <img src={logoUrl || DEFAULT_LOGO} alt="Piri Coxinha" className="w-13 h-13 rounded-2xl object-cover flex-none shadow-[0_0_0_2px_#FFC72C]" />
             <div className="flex-1 min-w-0 pt-0.5">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full flex-none" style={{ background: status.color }} />

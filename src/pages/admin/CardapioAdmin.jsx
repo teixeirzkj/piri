@@ -2,28 +2,11 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useProducts } from '../../hooks/useProducts'
 import { brl, CAT_LABELS } from '../../lib/format'
+import { resizeImage } from '../../lib/resizeImage'
 import { Card, Label, Field, Button } from '../../components/admin/ui'
 import DrinkIcon from '../../components/site/DrinkIcon'
 
 const emptyForm = () => ({ id: null, name: '', cat: 'minis', description: '', price: '1', cost: '0', stock: '0', badge: '', active: true, img: '' })
-
-function resizeImage(file, cb) {
-  const reader = new FileReader()
-  reader.onload = () => {
-    const img = new Image()
-    img.onload = () => {
-      const maxW = 320
-      const scale = Math.min(1, maxW / img.width)
-      const canvas = document.createElement('canvas')
-      canvas.width = Math.round(img.width * scale)
-      canvas.height = Math.round(img.height * scale)
-      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height)
-      cb(canvas.toDataURL('image/jpeg', 0.75))
-    }
-    img.src = reader.result
-  }
-  reader.readAsDataURL(file)
-}
 
 export default function CardapioAdmin() {
   const { products, addProduct, updateProduct, deleteProduct } = useProducts()
@@ -133,7 +116,7 @@ export default function CardapioAdmin() {
                       accept="image/*"
                       onChange={(e) => {
                         const file = e.target.files?.[0]
-                        if (file) resizeImage(file, (dataUrl) => setForm((f) => ({ ...f, img: dataUrl })))
+                        if (file) resizeImage(file, (dataUrl) => setForm((f) => ({ ...f, img: dataUrl })), { maxWidth: 320, quality: 0.75 })
                       }}
                       className="text-xs"
                     />

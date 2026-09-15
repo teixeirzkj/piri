@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { brl } from '../../lib/format'
-import { MIN_ORDER } from '../../lib/demoData'
+import { MIN_ORDER, DEFAULT_LOGO } from '../../lib/demoData'
 import { getSavedCustomer, saveCustomer } from '../../lib/savedCustomer'
 
-export default function CartDrawer({ open, onClose, items, total, count, onInc, onDec, onClear, drinkOptions, onAddDrink, onSubmitOrder, onBrowse }) {
+export default function CartDrawer({ open, onClose, items, total, count, onInc, onDec, onClear, drinkOptions, onAddDrink, onSubmitOrder, onBrowse, logoUrl }) {
   const [sauceChoice, setSauceChoice] = useState(null)
   const [sauceWarning, setSauceWarning] = useState(false)
   const [step, setStep] = useState('cart') // cart | details | done
@@ -99,7 +99,7 @@ export default function CartDrawer({ open, onClose, items, total, count, onInc, 
 
             {count === 0 && (
               <div className="flex-1 flex flex-col items-center justify-center gap-3 px-6 text-center">
-                <img src="/products/logo-piri.png" alt="" className="w-22 h-22 rounded-full opacity-90" />
+                <img src={logoUrl || DEFAULT_LOGO} alt="" className="w-22 h-22 rounded-full opacity-90" />
                 <p className="font-display text-2xl text-piri-dark m-0">Seu carrinho tá vazio</p>
                 <p className="m-0 text-piri-brown font-bold text-sm">Bora resolver isso? Uma coxinha nunca vem sozinha.</p>
                 <button onClick={onBrowse} className="mt-2 bg-piri-red text-white rounded-full px-6 py-3.5 font-black text-[15px]">
