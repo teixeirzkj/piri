@@ -63,23 +63,33 @@ alter table orders enable row level security;
 alter table settings enable row level security;
 
 -- Anyone (including anonymous site visitors) can read the menu and combos.
+drop policy if exists "public read products" on products;
 create policy "public read products" on products for select using (true);
+drop policy if exists "public read combos" on combos;
 create policy "public read combos" on combos for select using (true);
+drop policy if exists "public read settings" on settings;
 create policy "public read settings" on settings for select using (true);
 
 -- Only signed-in users (the owner, via Supabase Auth) can manage the catalog.
+drop policy if exists "admin write products" on products;
 create policy "admin write products" on products for all
   using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+drop policy if exists "admin write combos" on combos;
 create policy "admin write combos" on combos for all
   using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
+drop policy if exists "admin write settings" on settings;
 create policy "admin write settings" on settings for all
   using (auth.role() = 'authenticated') with check (auth.role() = 'authenticated');
 
 -- Site visitors can place an order (insert), but only the owner can read/manage
 -- the order list (so a stranger can't browse other customers' orders/phones).
+drop policy if exists "public create orders" on orders;
 create policy "public create orders" on orders for insert with check (true);
+drop policy if exists "admin read orders" on orders;
 create policy "admin read orders" on orders for select using (auth.role() = 'authenticated');
+drop policy if exists "admin write orders" on orders;
 create policy "admin write orders" on orders for update using (auth.role() = 'authenticated');
+drop policy if exists "admin delete orders" on orders;
 create policy "admin delete orders" on orders for delete using (auth.role() = 'authenticated');
 
 -- Seed data -------------------------------------------------------------

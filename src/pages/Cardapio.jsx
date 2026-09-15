@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { useProducts } from '../hooks/useProducts'
 import { useCombos } from '../hooks/useCombos'
@@ -34,6 +34,14 @@ export default function Cardapio() {
   const [openProduct, setOpenProduct] = useState(null)
   const [cartOpen, setCartOpen] = useState(false)
   const [toast, setToast] = useState(null)
+  const [, forceTick] = useState(0)
+
+  // Re-check open/closed as real time passes, not just when settings data changes
+  // (e.g. the store crosses its closing time while a customer has the page open).
+  useEffect(() => {
+    const t = setInterval(() => forceTick((n) => n + 1), 30000)
+    return () => clearInterval(t)
+  }, [])
 
   const status = computeStoreStatus(settings)
   const q = norm(query.trim())

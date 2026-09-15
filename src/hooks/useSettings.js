@@ -24,7 +24,14 @@ export function useSettings() {
       .channel('settings-changes')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'settings' }, load)
       .subscribe()
-    return () => supabase.removeChannel(channel)
+    // Belt-and-suspenders: also poll every 20s, so the storefront's
+    // open/closed badge self-corrects even if realtime isn't wired up
+    // (not enabled for this table, blocked network, etc.).
+    const poll = setInterval(load, 20000)
+    return () => {
+      supabase.removeChannel(channel)
+      clearInterval(poll)
+    }
   }, [])
 
   const updateSettings = useCallback(async (patch) => {
