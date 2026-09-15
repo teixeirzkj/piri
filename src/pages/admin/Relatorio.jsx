@@ -36,7 +36,7 @@ export default function Relatorio() {
         <input type="month" value={month} onChange={(e) => setMonth(e.target.value)} className="border border-piri-dark/16 rounded-[10px] px-3 py-2 text-sm font-bold" />
       </div>
       <div className="bg-white rounded-2xl border border-piri-dark/8 overflow-hidden">
-        <div className="grid grid-cols-4 px-4 py-3 text-[11px] font-black tracking-wide text-piri-brown border-b border-piri-dark/8">
+        <div className="hidden sm:grid grid-cols-4 px-4 py-3 text-[11px] font-black tracking-wide text-piri-brown border-b border-piri-dark/8">
           <span>ITEM</span>
           <span>QTD</span>
           <span>FATURAMENTO</span>
@@ -44,19 +44,41 @@ export default function Relatorio() {
         </div>
         {rows.length === 0 && <p className="p-4 text-piri-brown font-bold">Sem vendas neste mês.</p>}
         {rows.map((r) => (
-          <div key={r.name} className="grid grid-cols-4 px-4 py-3 text-[13.5px] font-extrabold border-b border-piri-dark/6">
-            <span>{r.name}</span>
-            <span>{r.qty}</span>
-            <span>{brl(r.revenue)}</span>
-            <span className="text-piri-green">{brl(profitByName[r.name] || 0)}</span>
+          <div key={r.name} className="px-4 py-3 text-[13.5px] font-extrabold border-b border-piri-dark/6 sm:grid sm:grid-cols-4 sm:items-center">
+            <span className="block sm:inline mb-1.5 sm:mb-0">{r.name}</span>
+            <div className="flex items-center justify-between sm:contents text-[12px] sm:text-[13.5px] font-bold sm:font-extrabold text-piri-brown sm:text-piri-dark">
+              <span>
+                <span className="sm:hidden text-piri-brown">Qtd: </span>
+                {r.qty}
+              </span>
+              <span>
+                <span className="sm:hidden text-piri-brown">Fat.: </span>
+                {brl(r.revenue)}
+              </span>
+              <span className="text-piri-green">
+                <span className="sm:hidden text-piri-brown">Lucro: </span>
+                {brl(profitByName[r.name] || 0)}
+              </span>
+            </div>
           </div>
         ))}
         {rows.length > 0 && (
-          <div className="grid grid-cols-4 px-4 py-3 text-[13.5px] font-black bg-piri-cream">
-            <span>TOTAL</span>
-            <span>{totalQty}</span>
-            <span>{brl(totalRevenue)}</span>
-            <span className="text-piri-green">{brl(totalProfit)}</span>
+          <div className="px-4 py-3 text-[13.5px] font-black bg-piri-cream sm:grid sm:grid-cols-4 sm:items-center">
+            <span className="block sm:inline mb-1.5 sm:mb-0">TOTAL</span>
+            <div className="flex items-center justify-between sm:contents">
+              <span>
+                <span className="sm:hidden font-bold">Qtd: </span>
+                {totalQty}
+              </span>
+              <span>
+                <span className="sm:hidden font-bold">Fat.: </span>
+                {brl(totalRevenue)}
+              </span>
+              <span className="text-piri-green">
+                <span className="sm:hidden font-bold text-piri-dark">Lucro: </span>
+                {brl(totalProfit)}
+              </span>
+            </div>
           </div>
         )}
       </div>
