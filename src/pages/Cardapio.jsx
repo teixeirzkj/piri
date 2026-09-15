@@ -138,8 +138,7 @@ export default function Cardapio() {
                 <h2 className="font-display text-xl text-white tracking-wide text-center">{g.label}</h2>
                 <span className="text-sm opacity-80">💛</span>
               </div>
-              <p className="mt-2.5 mb-3.5 text-[12.5px] font-bold text-piri-brown text-center">{g.priceNote}</p>
-              <div className="flex flex-col">
+              <div className="flex flex-col mt-3.5">
                 {g.items.map((p) => (
                   <ProductRow key={p.id} product={p} qty={cart.cart[p.id] || 0} onOpen={setOpenProduct} onAdd={() => handleAdd(p.id)} onDec={() => cart.dec(p.id)} />
                 ))}

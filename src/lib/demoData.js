@@ -4,11 +4,10 @@
 // so behavior matches once Supabase is connected.
 
 export const CATEGORIES = [
-  { id: 'minis', label: 'Salgados de Festa', priceNote: 'R$ 1,00 a unidade' },
-  { id: 'grandes', label: 'Salgados grandes', priceNote: 'R$ 5,00 cada unidade' },
-  { id: 'forno', label: 'Salgados de Forno', priceNote: 'Assados fresquinhos' },
-  { id: 'pasteis', label: 'Pastelzinhos crocantes', priceNote: 'R$ 1,00 a unidade' },
-  { id: 'bebidas', label: 'Bebidas geladas', priceNote: 'Latas R$ 6,00 · 1 Litro R$ 8,00' },
+  { id: 'forno', label: 'Salgados de Forno' },
+  { id: 'grandes', label: 'Salgados Fritos Grande' },
+  { id: 'minis', label: 'Salgados de Festa' },
+  { id: 'bebidas', label: 'Bebidas' },
 ]
 
 export const DEMO_PRODUCTS = [
@@ -17,21 +16,12 @@ export const DEMO_PRODUCTS = [
   { id: 'm-queijo', cat: 'minis', name: 'Bolinho de Queijo', description: 'Muito queijo e sabor.', long: 'Massa dourada com recheio cremoso de queijo que derrete na boca.', price: 1, cost: 0.4, stock: 100, img: '/products/p-queijo.jpeg', badge: 'QUERIDINHO', active: true },
   { id: 'm-risoles', cat: 'minis', name: 'Risoles', description: 'Presunto e queijo cremoso.', long: 'Risoles empanado e crocante com recheio cremoso de presunto e queijo.', price: 1, cost: 0.4, stock: 100, img: '/products/p-risoles.jpeg', active: true },
   { id: 'm-enrolado', cat: 'minis', name: 'Enroladinho de Salsicha', description: 'Salsicha envolvida na massa.', long: 'Salsicha suculenta envolvida em massa leve e frita na hora.', price: 1, cost: 0.4, stock: 100, img: '/products/p-enrolado.jpeg', active: true },
-  { id: 'g-coxinha', cat: 'grandes', name: 'Coxinha', description: 'Frango desfiado bem temperado.', long: 'A clássica da Piri: massa macia, recheio farto de frango desfiado e crocância na medida certa.', price: 5, cost: 1.8, stock: 60, img: '/products/p-coxinha.jpeg', badge: 'MAIS VENDIDO', featured: true, active: true },
-  { id: 'g-carne', cat: 'grandes', name: 'Bolinho de Carne', description: 'Carne moída saborosa.', long: 'Tamanho generoso, recheio de carne moída bem temperada e massa dourada.', price: 5, cost: 1.8, stock: 60, img: '/products/p-carne.jpeg', active: true },
-  { id: 'g-queijo', cat: 'grandes', name: 'Bolinho de Queijo', description: 'Muito queijo e sabor.', long: 'Puxa-puxa de verdade. Recheio farto de queijo em massa leve e crocante.', price: 5, cost: 1.8, stock: 60, img: '/products/p-queijo.jpeg', badge: 'QUERIDINHO', featured: true, active: true },
-  { id: 'g-risoles', cat: 'grandes', name: 'Risoles', description: 'Presunto e queijo cremoso.', long: 'Risoles grande, empanado e crocante, com recheio cremoso de presunto e queijo.', price: 5, cost: 1.8, stock: 60, img: '/products/p-risoles.jpeg', active: true },
-  { id: 'g-enrolado', cat: 'grandes', name: 'Enrolado de Salsicha', description: 'Salsicha suculenta envolvida na massa.', long: 'Salsicha inteira envolvida em massa macia e dourada.', price: 5, cost: 1.8, stock: 60, img: '/products/p-enrolado.jpeg', active: true },
   { id: 'g-esfiha-carne', cat: 'forno', name: 'Esfiha de Carne', description: 'Recheio de carne moída bem temperada.', long: 'Esfiha assada no forno, recheio farto de carne moída bem temperada.', price: 6, cost: 2, stock: 40, img: '/products/forno-esfiha-carne.jpeg', active: true },
   { id: 'g-esfiha-frango', cat: 'forno', name: 'Esfiha de Frango c/ Requeijão', description: 'Frango desfiado com requeijão cremoso.', long: 'Esfiha assada no forno, recheio de frango desfiado com requeijão cremoso.', price: 6, cost: 2, stock: 40, img: '/products/forno-esfiha-frango.jpeg', active: true },
   { id: 'g-esfiha-calabresa', cat: 'forno', name: 'Esfiha de Calabresa c/ Requeijão', description: 'Calabresa moída com requeijão cremoso.', long: 'Esfiha assada no forno, recheio de calabresa moída com requeijão cremoso.', price: 6, cost: 2, stock: 40, img: '/products/forno-esfiha-calabresa.jpeg', active: true },
   { id: 'g-bauru', cat: 'forno', name: 'Baurú', description: 'Pão fofinho recheado, assado no forno.', long: 'Baurú assado no forno, pão fofinho e recheio generoso.', price: 6, cost: 2, stock: 40, img: '/products/forno-bauru.jpeg', active: true },
   { id: 'g-hamburgao', cat: 'forno', name: 'Hambúrgão c/ Cheddar', description: 'Pão recheado com cheddar derretido.', long: 'Hambúrgão assado no forno, recheado com cheddar derretido.', price: 6, cost: 2, stock: 40, img: '/products/forno-hamburgao-cheddar.jpeg', active: true },
   { id: 'g-doguinho', cat: 'forno', name: 'Doguinho c/ Requeijão', description: 'Pãozinho macio com salsicha e requeijão.', long: 'Doguinho assado no forno, pãozinho macio com salsicha e requeijão cremoso.', price: 6, cost: 2, stock: 40, img: '/products/forno-doguinho.jpeg', active: true },
-  { id: 'p-frango', cat: 'pasteis', name: 'Pastelzinho de Frango', description: 'Crocante e recheado.', long: 'Pastelzinho crocante com recheio de frango temperado. Perfeito pra beliscar.', price: 1, cost: 0.4, stock: 100, img: '/products/pasteis.png', badge: 'NOVO', featured: true, active: true },
-  { id: 'p-carne', cat: 'pasteis', name: 'Pastelzinho de Carne', description: 'Carne moída bem temperada.', long: 'Massa fininha e crocante com recheio de carne moída.', price: 1, cost: 0.4, stock: 100, img: '/products/pasteis.png', active: true },
-  { id: 'p-queijo', cat: 'pasteis', name: 'Pastelzinho de Queijo', description: 'Queijo derretido.', long: 'Pastelzinho crocante recheado com queijo derretido.', price: 1, cost: 0.4, stock: 100, img: '/products/pasteis.png', active: true },
-  { id: 'p-calabresa', cat: 'pasteis', name: 'Pastelzinho de Calabresa', description: 'Calabresa com cebola.', long: 'Recheio de calabresa moída com cebola, em massa crocante.', price: 1, cost: 0.4, stock: 100, img: '/products/pasteis.png', active: true },
   { id: 'beb-coca-lata', cat: 'bebidas', name: 'Coca-Cola Lata 350ml', description: 'Bem geladinha.', long: 'Coca-Cola gelada, lata de 350ml.', price: 6, cost: 3, stock: 48, img: '/products/beb-coca-lata.jpg', active: true },
   { id: 'beb-guarana-lata', cat: 'bebidas', name: 'Guaraná Antarctica Lata 350ml', description: 'Bem geladinha.', long: 'Guaraná Antarctica gelado, lata de 350ml.', price: 6, cost: 3, stock: 48, img: '/products/beb-guarana-lata.jpg', active: true },
   { id: 'beb-sukita-lata', cat: 'bebidas', name: 'Sukita Laranja Lata 350ml', description: 'Bem geladinha.', long: 'Sukita sabor laranja, lata de 350ml.', price: 6, cost: 3, stock: 48, img: '/products/beb-sukita-lata.jpg', active: true },

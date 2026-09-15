@@ -103,22 +103,20 @@ insert into products (id, cat, name, description, long, price, cost, stock, badg
   ('m-queijo','minis','Bolinho de Queijo','Muito queijo e sabor.','Massa dourada com recheio cremoso de queijo que derrete na boca.',1,0.4,100,'QUERIDINHO','/products/p-queijo.jpeg',false,true),
   ('m-risoles','minis','Risoles','Presunto e queijo cremoso.','Risoles empanado e crocante com recheio cremoso de presunto e queijo.',1,0.4,100,'','/products/p-risoles.jpeg',false,true),
   ('m-enrolado','minis','Enroladinho de Salsicha','Salsicha envolvida na massa.','Salsicha suculenta envolvida em massa leve e frita na hora.',1,0.4,100,'','/products/p-enrolado.jpeg',false,true),
-  ('g-coxinha','grandes','Coxinha','Frango desfiado bem temperado.','A clássica da Piri: massa macia, recheio farto de frango desfiado e crocância na medida certa.',5,1.8,60,'MAIS VENDIDO','/products/p-coxinha.jpeg',true,true),
-  ('g-carne','grandes','Bolinho de Carne','Carne moída saborosa.','Tamanho generoso, recheio de carne moída bem temperada e massa dourada.',5,1.8,60,'','/products/p-carne.jpeg',false,true),
-  ('g-queijo','grandes','Bolinho de Queijo','Muito queijo e sabor.','Puxa-puxa de verdade. Recheio farto de queijo em massa leve e crocante.',5,1.8,60,'QUERIDINHO','/products/p-queijo.jpeg',true,true),
-  ('g-risoles','grandes','Risoles','Presunto e queijo cremoso.','Risoles grande, empanado e crocante, com recheio cremoso de presunto e queijo.',5,1.8,60,'','/products/p-risoles.jpeg',false,true),
-  ('g-enrolado','grandes','Enrolado de Salsicha','Salsicha suculenta envolvida na massa.','Salsicha inteira envolvida em massa macia e dourada.',5,1.8,60,'','/products/p-enrolado.jpeg',false,true),
   ('g-esfiha-carne','forno','Esfiha de Carne','Recheio de carne moída bem temperada.','Esfiha assada no forno, recheio farto de carne moída bem temperada.',6,2,40,'','/products/forno-esfiha-carne.jpeg',false,true),
   ('g-esfiha-frango','forno','Esfiha de Frango c/ Requeijão','Frango desfiado com requeijão cremoso.','Esfiha assada no forno, recheio de frango desfiado com requeijão cremoso.',6,2,40,'','/products/forno-esfiha-frango.jpeg',false,true),
   ('g-esfiha-calabresa','forno','Esfiha de Calabresa c/ Requeijão','Calabresa moída com requeijão cremoso.','Esfiha assada no forno, recheio de calabresa moída com requeijão cremoso.',6,2,40,'','/products/forno-esfiha-calabresa.jpeg',false,true),
   ('g-bauru','forno','Baurú','Pão fofinho recheado, assado no forno.','Baurú assado no forno, pão fofinho e recheio generoso.',6,2,40,'','/products/forno-bauru.jpeg',false,true),
   ('g-hamburgao','forno','Hambúrgão c/ Cheddar','Pão recheado com cheddar derretido.','Hambúrgão assado no forno, recheado com cheddar derretido.',6,2,40,'','/products/forno-hamburgao-cheddar.jpeg',false,true),
-  ('g-doguinho','forno','Doguinho c/ Requeijão','Pãozinho macio com salsicha e requeijão.','Doguinho assado no forno, pãozinho macio com salsicha e requeijão cremoso.',6,2,40,'','/products/forno-doguinho.jpeg',false,true),
-  ('p-frango','pasteis','Pastelzinho de Frango','Crocante e recheado.','Pastelzinho crocante com recheio de frango temperado. Perfeito pra beliscar.',1,0.4,100,'NOVO','/products/pasteis.png',true,true),
-  ('p-carne','pasteis','Pastelzinho de Carne','Carne moída bem temperada.','Massa fininha e crocante com recheio de carne moída.',1,0.4,100,'','/products/pasteis.png',false,true),
-  ('p-queijo','pasteis','Pastelzinho de Queijo','Queijo derretido.','Pastelzinho crocante recheado com queijo derretido.',1,0.4,100,'','/products/pasteis.png',false,true),
-  ('p-calabresa','pasteis','Pastelzinho de Calabresa','Calabresa com cebola.','Recheio de calabresa moída com cebola, em massa crocante.',1,0.4,100,'','/products/pasteis.png',false,true)
+  ('g-doguinho','forno','Doguinho c/ Requeijão','Pãozinho macio com salsicha e requeijão.','Doguinho assado no forno, pãozinho macio com salsicha e requeijão cremoso.',6,2,40,'','/products/forno-doguinho.jpeg',false,true)
 on conflict (id) do nothing;
+
+-- "Salgados Fritos Grande" (grandes) and the old fried "Pastelzinho de ..."
+-- items are gone for good — they'll be added manually from the admin
+-- Cardápio page instead of being auto-seeded. If you ever re-run an older
+-- copy of this script, this cleans them back out (safe to run any time).
+delete from products where id in
+  ('g-coxinha','g-carne','g-queijo','g-risoles','g-enrolado','p-frango','p-carne','p-queijo','p-calabresa');
 
 insert into products (id, cat, name, description, long, price, cost, stock, img, active) values
   ('beb-coca-lata','bebidas','Coca-Cola Lata 350ml','Bem geladinha.','Coca-Cola gelada, lata de 350ml.',6,3,48,'/products/beb-coca-lata.jpg',true),
