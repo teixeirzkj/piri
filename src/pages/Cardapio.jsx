@@ -6,7 +6,7 @@ import { useOrders } from '../hooks/useOrders'
 import { useCart } from '../hooks/useCart'
 import { CATEGORIES } from '../lib/demoData'
 import { norm } from '../lib/format'
-import { computeStoreStatus } from '../lib/storeStatus'
+import { computeStoreStatus, hoursLabel } from '../lib/storeStatus'
 import { orderWhatsAppLink } from '../lib/whatsapp'
 
 import StoreHeader from '../components/site/StoreHeader'
@@ -92,6 +92,7 @@ export default function Cardapio() {
     <div className="min-h-screen flex flex-col bg-piri-cream">
       <StoreHeader
         status={status}
+        hoursLabel={hoursLabel(settings)}
         searchOpen={searchOpen}
         onToggleSearch={() => {
           setSearchOpen((s) => !s)

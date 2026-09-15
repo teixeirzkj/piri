@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { DEFAULT_LOGO, DEFAULT_BANNER } from '../../lib/demoData'
 
-export default function StoreHeader({ status, searchOpen, onToggleSearch, query, onQueryChange, logoUrl, bannerUrl }) {
+export default function StoreHeader({ status, hoursLabel, searchOpen, onToggleSearch, query, onQueryChange, logoUrl, bannerUrl }) {
   return (
     <>
       <div className="relative h-[clamp(120px,20vw,190px)] overflow-hidden bg-piri-dark">
@@ -15,9 +15,9 @@ export default function StoreHeader({ status, searchOpen, onToggleSearch, query,
         transition={{ duration: 0.4 }}
         className="max-w-[640px] mx-auto -mt-7 px-4 relative z-10 w-full"
       >
-        <div className="bg-white rounded-3xl shadow-[0_12px_32px_rgba(120,60,20,.16)] px-4.5 pt-4.5 pb-1.5">
+        <div className="bg-white rounded-3xl shadow-[0_12px_32px_rgba(120,60,20,.16)] px-4.5 pt-3.5 pb-1.5">
           <div className="flex items-start gap-3">
-            <img src={logoUrl || DEFAULT_LOGO} alt="Piri Coxinha" className="w-13 h-13 rounded-2xl object-cover flex-none shadow-[0_0_0_2px_#FFC72C]" />
+            <img src={logoUrl || DEFAULT_LOGO} alt="Piri Coxinha" className="w-11 h-11 rounded-2xl object-cover flex-none shadow-[0_0_0_2px_#FFC72C]" />
             <div className="flex-1 min-w-0 pt-0.5">
               <div className="flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full flex-none" style={{ background: status.color }} />
@@ -25,9 +25,7 @@ export default function StoreHeader({ status, searchOpen, onToggleSearch, query,
                   {status.label}
                 </span>
               </div>
-              <p className="mt-0.5 text-piri-brown font-bold text-xs leading-snug">
-                Ter a Sex · 10h-22h · Sáb · 10h-23h · Dom · 12h-22h
-              </p>
+              <p className="mt-0.5 text-piri-brown font-bold text-xs leading-snug">{hoursLabel}</p>
             </div>
             <button
               onClick={onToggleSearch}
@@ -42,9 +40,9 @@ export default function StoreHeader({ status, searchOpen, onToggleSearch, query,
             </button>
           </div>
 
-          <div className="mt-3">
-            <h1 className="font-display text-[26px] text-piri-dark leading-none">Piri Coxinha</h1>
-            <p className="mt-1 text-piri-brown font-bold text-[13px]">Miguel Calmon, BA · Salgaderia</p>
+          <div className="mt-2">
+            <h1 className="font-display text-[22px] text-piri-dark leading-none">Piri Coxinha</h1>
+            <p className="mt-1 text-piri-brown font-bold text-[12px]">Miguel Calmon, BA · Salgaderia</p>
           </div>
 
           <AnimatePresence>
@@ -66,22 +64,22 @@ export default function StoreHeader({ status, searchOpen, onToggleSearch, query,
             )}
           </AnimatePresence>
 
-          <div className="grid grid-cols-3 mt-4 border-t border-piri-dark/10">
-            <div className="text-center py-3 px-1 border-r border-piri-dark/10">
-              <p className="font-display text-[17px] text-piri-red">Grátis</p>
+          <div className="grid grid-cols-3 mt-3 border-t border-piri-dark/10">
+            <div className="text-center py-2 px-1 border-r border-piri-dark/10">
+              <p className="font-display text-[15px] text-piri-red">Grátis</p>
               <p className="mt-0.5 text-[10px] font-extrabold tracking-wide text-piri-brown">ENTREGA</p>
             </div>
-            <div className="text-center py-3 px-1 border-r border-piri-dark/10">
-              <p className="font-display text-[17px] text-piri-red">R$ 15,00</p>
+            <div className="text-center py-2 px-1 border-r border-piri-dark/10">
+              <p className="font-display text-[15px] text-piri-red">R$ 15,00</p>
               <p className="mt-0.5 text-[10px] font-extrabold tracking-wide text-piri-brown">PEDIDO MÍNIMO</p>
             </div>
-            <div className="text-center py-3 px-1">
-              <p className="font-display text-[17px] text-piri-red">Na hora</p>
+            <div className="text-center py-2 px-1">
+              <p className="font-display text-[15px] text-piri-red">Na hora</p>
               <p className="mt-0.5 text-[10px] font-extrabold tracking-wide text-piri-brown">SEMPRE FRESQUINHO</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-2.5 my-3.5">
+          <div className="grid grid-cols-2 gap-2.5 my-2.5">
             <div className="flex items-center gap-2 bg-[#F1F8F1] border border-[#CFE8CF] rounded-2xl px-3 py-2.5">
               <span className="w-7 h-7 rounded-full bg-piri-green text-white flex items-center justify-center flex-none">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
