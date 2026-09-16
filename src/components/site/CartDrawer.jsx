@@ -285,10 +285,9 @@ export default function CartDrawer({ open, onClose, items, total, count, onInc, 
 
                 <div className="mt-1">
                   <p className="text-xs font-black uppercase tracking-wide text-piri-brown mb-1.5">Forma de pagamento</p>
-                  <div className="grid grid-cols-3 gap-2">
+                  <div className="grid grid-cols-2 gap-2">
                     {[
                       ['pix', 'Pix'],
-                      ['cartao', 'Cartão'],
                       ['dinheiro', 'Dinheiro'],
                     ].map(([id, label]) => (
                       <button

@@ -17,7 +17,7 @@ export function useProducts() {
     }
     let channel
     const load = async () => {
-      const { data } = await supabase.from('products').select('*').order('name')
+      const { data } = await supabase.from('products').select('*').order('sort_order').order('name')
       setProducts(data || [])
       setLoading(false)
     }

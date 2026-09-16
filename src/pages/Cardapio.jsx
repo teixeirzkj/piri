@@ -5,7 +5,7 @@ import { useSettings } from '../hooks/useSettings'
 import { useOrders } from '../hooks/useOrders'
 import { useCart } from '../hooks/useCart'
 import { CATEGORIES } from '../lib/demoData'
-import { norm } from '../lib/format'
+import { norm, byOrder } from '../lib/format'
 import { computeStoreStatus, hoursLabel } from '../lib/storeStatus'
 import { orderWhatsAppLink } from '../lib/whatsapp'
 
@@ -65,11 +65,11 @@ export default function Cardapio() {
   const featured = activeProducts.filter((p) => p.featured)
 
   const groups = CATEGORIES.map((c) => {
-    const items = activeProducts.filter((p) => p.cat === c.id && (!searchActive || norm(p.name).includes(q)))
+    const items = activeProducts.filter((p) => p.cat === c.id && (!searchActive || norm(p.name).includes(q))).sort(byOrder)
     return { ...c, items }
   })
 
-  const drinkOptions = activeProducts.filter((p) => p.cat === 'bebidas')
+  const drinkOptions = activeProducts.filter((p) => p.cat === 'bebidas').sort(byOrder)
 
   const handleSubmitOrder = async (orderDraft) => {
     const cost = orderDraft.items.reduce((a, it) => {

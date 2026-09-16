@@ -16,8 +16,11 @@ create table if not exists products (
   icon_kind text,
   icon_color text,
   featured boolean default false,
-  active boolean not null default true
+  active boolean not null default true,
+  sort_order integer not null default 0
 );
+
+alter table products add column if not exists sort_order integer not null default 0;
 
 create table if not exists combos (
   id text primary key,

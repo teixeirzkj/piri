@@ -4,7 +4,7 @@ export function waLink(text) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`
 }
 
-const PAYMENT_LABEL = { pix: 'Pix', cartao: 'Cartão', dinheiro: 'Dinheiro' }
+const PAYMENT_LABEL = { pix: 'Pix', dinheiro: 'Dinheiro' }
 
 export function orderWhatsAppLink(order) {
   const lines = [

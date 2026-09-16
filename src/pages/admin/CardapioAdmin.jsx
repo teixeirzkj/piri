@@ -1,12 +1,76 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, Reorder, useDragControls } from 'framer-motion'
 import { useProducts } from '../../hooks/useProducts'
-import { brl, CAT_LABELS } from '../../lib/format'
+import { brl, CAT_LABELS, byOrder } from '../../lib/format'
 import { resizeImage } from '../../lib/resizeImage'
 import { Card, Label, Field, Button } from '../../components/admin/ui'
 import DrinkIcon from '../../components/site/DrinkIcon'
 
 const emptyForm = () => ({ id: null, name: '', cat: 'minis', description: '', price: '1', cost: '0', stock: '0', badge: '', featured: false, active: true, img: '' })
+
+function DragHandle({ controls }) {
+  return (
+    <div
+      onPointerDown={(e) => controls.start(e)}
+      className="flex-none self-stretch flex items-center px-1 -ml-1 cursor-grab active:cursor-grabbing touch-none text-piri-brown/60"
+      aria-label="Arrastar para reordenar"
+    >
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <circle cx="8" cy="6" r="1.6" />
+        <circle cx="16" cy="6" r="1.6" />
+        <circle cx="8" cy="12" r="1.6" />
+        <circle cx="16" cy="12" r="1.6" />
+        <circle cx="8" cy="18" r="1.6" />
+        <circle cx="16" cy="18" r="1.6" />
+      </svg>
+    </div>
+  )
+}
+
+function ProductCardBody({ p, onEdit, onRemove, dragHandle }) {
+  return (
+    <Card className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-3.5 py-3 px-3.5 bg-white">
+      {dragHandle}
+      <div className="flex items-center gap-3 flex-1 min-w-0">
+        <div className="w-13 h-13 rounded-xl overflow-hidden bg-[#F4E4C8] flex-none flex items-center justify-center">
+          {p.icon ? <DrinkIcon kind={p.iconKind} color={p.iconColor} size={30} /> : p.img ? <img src={p.img} className="w-full h-full object-cover" /> : <span className="text-xl">🍽️</span>}
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="m-0 font-black text-sm">{p.name}</p>
+          <div className="mt-1 flex flex-wrap gap-1">
+            {p.badge && <span className="font-extrabold text-[10px] text-piri-dark bg-piri-gold px-1.5 py-0.5 rounded-full">{p.badge}</span>}
+            {p.featured && <span className="font-extrabold text-[10px] text-piri-dark bg-[#E8DFF5] px-1.5 py-0.5 rounded-full">⭐ MAIS PEDIDOS</span>}
+            {p.active === false && <span className="font-extrabold text-[10px] text-piri-brown bg-piri-cream px-1.5 py-0.5 rounded-full">INATIVO</span>}
+          </div>
+          <p className="mt-1 text-[12.5px] text-piri-brown font-semibold">{p.description}</p>
+        </div>
+      </div>
+      <div className="flex items-center justify-between sm:flex-col sm:items-end sm:justify-start flex-none sm:text-right gap-1">
+        <p className="font-display m-0 text-[17px] text-piri-red">{brl(p.price)}</p>
+        <p className="text-[11px] text-piri-brown font-bold">
+          custo {brl(p.cost)} · estoque {p.stock ?? 0}
+        </p>
+      </div>
+      <div className="flex gap-1.5 flex-none">
+        <Button variant="ghost" className="flex-1 sm:flex-none" onClick={onEdit}>
+          Editar
+        </Button>
+        <Button variant="outline" className="flex-1 sm:flex-none" onClick={onRemove}>
+          Excluir
+        </Button>
+      </div>
+    </Card>
+  )
+}
+
+function ProductAdminRow({ p, onEdit, onRemove }) {
+  const controls = useDragControls()
+  return (
+    <Reorder.Item value={p} as="div" dragListener={false} dragControls={controls}>
+      <ProductCardBody p={p} onEdit={onEdit} onRemove={onRemove} dragHandle={<DragHandle controls={controls} />} />
+    </Reorder.Item>
+  )
+}
 
 export default function CardapioAdmin() {
   const { products, addProduct, updateProduct, deleteProduct } = useProducts()
@@ -15,6 +79,15 @@ export default function CardapioAdmin() {
   const [form, setForm] = useState(emptyForm())
 
   const filtered = products.filter((p) => !query.trim() || p.name.toLowerCase().includes(query.trim().toLowerCase()))
+  const searching = query.trim().length > 0
+
+  const grouped = Object.entries(CAT_LABELS)
+    .map(([cat, label]) => ({ cat, label, items: filtered.filter((p) => p.cat === cat).sort(byOrder) }))
+    .filter((g) => g.items.length > 0)
+
+  const persistOrder = async (items) => {
+    await Promise.all(items.map((p, i) => updateProduct(p.id, { sort_order: i })))
+  }
 
   const openNew = () => {
     setForm(emptyForm())
@@ -60,41 +133,29 @@ export default function CardapioAdmin() {
 
       {filtered.length === 0 && <p className="text-piri-brown font-bold">Nenhum item encontrado.</p>}
 
-      <div className="flex flex-col gap-2.5">
-        {filtered.map((p) => (
-          <Card key={p.id} className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-3.5 py-3 px-3.5">
-            <div className="flex items-center gap-3 flex-1 min-w-0">
-              <div className="w-13 h-13 rounded-xl overflow-hidden bg-[#F4E4C8] flex-none flex items-center justify-center">
-                {p.icon ? <DrinkIcon kind={p.iconKind} color={p.iconColor} size={30} /> : p.img ? <img src={p.img} className="w-full h-full object-cover" /> : <span className="text-xl">🍽️</span>}
+      <div className="flex flex-col gap-6">
+        {grouped.map((g) => (
+          <div key={g.cat}>
+            <h2 className="font-display text-lg text-piri-dark mb-2">{g.label}</h2>
+            {searching ? (
+              <div className="flex flex-col gap-2.5">
+                {g.items.map((p) => (
+                  <ProductCardBody key={p.id} p={p} onEdit={() => openEdit(p)} onRemove={() => remove(p)} />
+                ))}
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="m-0 font-black text-sm">{p.name}</p>
-                <div className="mt-1 flex flex-wrap gap-1">
-                  <span className="font-extrabold text-[10px] text-piri-red bg-[#FBEAEA] px-1.5 py-0.5 rounded-full">{CAT_LABELS[p.cat] || p.cat}</span>
-                  {p.badge && <span className="font-extrabold text-[10px] text-piri-dark bg-piri-gold px-1.5 py-0.5 rounded-full">{p.badge}</span>}
-                  {p.featured && <span className="font-extrabold text-[10px] text-piri-dark bg-[#E8DFF5] px-1.5 py-0.5 rounded-full">⭐ MAIS PEDIDOS</span>}
-                  {p.active === false && <span className="font-extrabold text-[10px] text-piri-brown bg-piri-cream px-1.5 py-0.5 rounded-full">INATIVO</span>}
-                </div>
-                <p className="mt-1 text-[12.5px] text-piri-brown font-semibold">{p.description}</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-between sm:flex-col sm:items-end sm:justify-start flex-none sm:text-right gap-1">
-              <p className="font-display m-0 text-[17px] text-piri-red">{brl(p.price)}</p>
-              <p className="text-[11px] text-piri-brown font-bold">
-                custo {brl(p.cost)} · estoque {p.stock ?? 0}
-              </p>
-            </div>
-            <div className="flex gap-1.5 flex-none">
-              <Button variant="ghost" className="flex-1 sm:flex-none" onClick={() => openEdit(p)}>
-                Editar
-              </Button>
-              <Button variant="outline" className="flex-1 sm:flex-none" onClick={() => remove(p)}>
-                Excluir
-              </Button>
-            </div>
-          </Card>
+            ) : (
+              <Reorder.Group axis="y" as="div" values={g.items} onReorder={persistOrder} className="flex flex-col gap-2.5">
+                {g.items.map((p) => (
+                  <ProductAdminRow key={p.id} p={p} onEdit={() => openEdit(p)} onRemove={() => remove(p)} />
+                ))}
+              </Reorder.Group>
+            )}
+          </div>
         ))}
       </div>
+      {!searching && grouped.length > 0 && (
+        <p className="mt-3 text-[12px] text-piri-brown font-semibold">Segure ⠿ e arraste pra reordenar os itens dentro de cada categoria.</p>
+      )}
 
       <AnimatePresence>
         {modalOpen && (
