@@ -69,7 +69,7 @@ export default function Cardapio() {
     return { ...c, items }
   })
 
-  const drinkOptions = activeProducts.filter((p) => p.cat === 'bebidas' && p.id.endsWith('-lata'))
+  const drinkOptions = activeProducts.filter((p) => p.cat === 'bebidas')
 
   const handleSubmitOrder = async (orderDraft) => {
     const cost = orderDraft.items.reduce((a, it) => {
