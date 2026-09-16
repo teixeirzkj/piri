@@ -1,4 +1,5 @@
 import { DEFAULT_LOGO } from '../../lib/demoData'
+import InstallAppButton from './InstallAppButton'
 
 export default function Footer({ logoUrl }) {
   return (
@@ -20,6 +21,7 @@ export default function Footer({ logoUrl }) {
             @piri.coxinha
           </a>
         </div>
+        <InstallAppButton />
         <p className="mt-2 pt-4 border-t border-piri-cream/15 text-[11.5px] text-piri-cream/50 font-semibold">
           © {new Date().getFullYear()} Piri Coxinha Salgaderia. Todos os direitos reservados.
         </p>
