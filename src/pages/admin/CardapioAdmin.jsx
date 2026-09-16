@@ -6,7 +6,7 @@ import { resizeImage } from '../../lib/resizeImage'
 import { Card, Label, Field, Button } from '../../components/admin/ui'
 import DrinkIcon from '../../components/site/DrinkIcon'
 
-const emptyForm = () => ({ id: null, name: '', cat: 'minis', description: '', price: '1', cost: '0', stock: '0', badge: '', active: true, img: '' })
+const emptyForm = () => ({ id: null, name: '', cat: 'minis', description: '', price: '1', cost: '0', stock: '0', badge: '', featured: false, active: true, img: '' })
 
 export default function CardapioAdmin() {
   const { products, addProduct, updateProduct, deleteProduct } = useProducts()
@@ -21,7 +21,7 @@ export default function CardapioAdmin() {
     setModalOpen(true)
   }
   const openEdit = (p) => {
-    setForm({ id: p.id, name: p.name, cat: p.cat, description: p.description || '', price: String(p.price), cost: String(p.cost || 0), stock: String(p.stock ?? 0), badge: p.badge || '', active: p.active !== false, img: p.img || '' })
+    setForm({ id: p.id, name: p.name, cat: p.cat, description: p.description || '', price: String(p.price), cost: String(p.cost || 0), stock: String(p.stock ?? 0), badge: p.badge || '', featured: p.featured === true, active: p.active !== false, img: p.img || '' })
     setModalOpen(true)
   }
 
@@ -35,6 +35,7 @@ export default function CardapioAdmin() {
       cost: Number(form.cost) || 0,
       stock: Number(form.stock) || 0,
       badge: form.badge,
+      featured: form.featured,
       active: form.active,
       img: form.img || '',
     }
@@ -70,6 +71,8 @@ export default function CardapioAdmin() {
                 <p className="m-0 font-black text-sm">{p.name}</p>
                 <div className="mt-1 flex flex-wrap gap-1">
                   <span className="font-extrabold text-[10px] text-piri-red bg-[#FBEAEA] px-1.5 py-0.5 rounded-full">{CAT_LABELS[p.cat] || p.cat}</span>
+                  {p.badge && <span className="font-extrabold text-[10px] text-piri-dark bg-piri-gold px-1.5 py-0.5 rounded-full">{p.badge}</span>}
+                  {p.featured && <span className="font-extrabold text-[10px] text-piri-dark bg-[#E8DFF5] px-1.5 py-0.5 rounded-full">⭐ MAIS PEDIDOS</span>}
                   {p.active === false && <span className="font-extrabold text-[10px] text-piri-brown bg-piri-cream px-1.5 py-0.5 rounded-full">INATIVO</span>}
                 </div>
                 <p className="mt-1 text-[12.5px] text-piri-brown font-semibold">{p.description}</p>
@@ -164,6 +167,9 @@ export default function CardapioAdmin() {
                   </select>
                 </div>
                 <label className="flex items-center gap-2 font-extrabold text-[13px] mt-1">
+                  <input type="checkbox" checked={form.featured} onChange={(e) => setForm((f) => ({ ...f, featured: e.target.checked }))} /> Destacar em "Mais pedidos" (topo do cardápio)
+                </label>
+                <label className="flex items-center gap-2 font-extrabold text-[13px]">
                   <input type="checkbox" checked={form.active} onChange={(e) => setForm((f) => ({ ...f, active: e.target.checked }))} /> Item ativo no cardápio
                 </label>
               </div>
